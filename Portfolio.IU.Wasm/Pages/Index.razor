@@ -1,0 +1,22 @@
+﻿@page "/"
+@inject HttpClient http
+@using Portfolio.Shared
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+<input @bind-value ="newProjectName" />
+<button @onclick="addProject">add Project</button>
+
+@code
+{
+    private string newProjectName;
+    private IEnumerable<Project> projects;
+    private async Task addProject()
+    {
+        var project = new Project { Title = newProjectName };
+        //http.PostAsJsonAsync();
+    }
+}
