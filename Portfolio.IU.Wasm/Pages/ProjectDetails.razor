@@ -1,0 +1,9 @@
+﻿@page "/projectdetails/{ProjectId:int}"
+
+<h3>ProjectDetails @ProjectId</h3>
+
+
+@code {
+    [Parameter]
+    public int ProjectId { get; set; }
+}
