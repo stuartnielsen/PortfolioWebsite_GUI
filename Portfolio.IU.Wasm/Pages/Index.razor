@@ -2,21 +2,102 @@
 @inject HttpClient http
 @using Portfolio.Shared
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-<input @bind-value ="newProjectName" />
-<button @onclick="addProject">add Project</button>
 
-@code
-{
-    private string newProjectName;
-    private IEnumerable<Project> projects;
-    private async Task addProject()
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create New Project</title>
+</head>
+<header>
+    <h1 class="page-title">My Personal  Projects</h1>
+    <br />
+    <h3>Using this application, you can check out my projects and their details!</h3>
+</header>
+<body>
+    <h5 class="bg-primary text-white text-center m-2 p-2">Create a Project</h5>
+    <div class="m-2">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Title">Project Title:</label>
+            <input @bind-value="newProjectName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Body">Requirements: </label>
+            <input @bind-value="newProjectRequirements" class="form-control" rows="4">
+        </div>
+        <div class="form-group">
+            <label asp-for="Body">Design: </label>
+            <input @bind-value="newProjectDesign" class="form-control" rows="4">
+        </div>
+        <div class="form-group">
+            <label asp-for="Body">Completion Date: </label>
+            <input @bind-value="newProjectCompletionDate" type="date" />
+        </div>
+        <div>
+        </div>
+        <button @onclick="addProject" class="btn btn-primary">Add Project</button>
+    </div>
+</body>
+
+
+
+
+
+<button @onclick="loadProjects">Load Projects</button>
+
+<hr />
+<h3>List of Projects</h3>
+<ul>
+    @foreach (var p in projects)
     {
-        var project = new Project { Title = newProjectName };
-        //http.PostAsJsonAsync();
-    }
-}
+<li>@p.Title</li>}
+</ul>
+
+
+
+
+
+@code { private string newProjectName;
+            private string newProjectRequirements;
+            private string newProjectDesign;
+            private DateTime newProjectCompletionDate;
+
+
+
+            private IEnumerable<Project> projects = new List<Project>();
+
+            private async Task addProject()
+            {
+                var project = new Project
+                {
+                    Title = newProjectName,
+                    Requirements = newProjectRequirements,
+                    Design = newProjectDesign,
+                    CompletionDate = newProjectCompletionDate
+                };
+                try
+                {
+                    var response = await http.PostAsJsonAsync("/api/project/", project);
+                }
+                catch (Exception e)
+                {
+                }
+                await RefreshProjectsAsync();
+            }
+
+            private async Task loadProjects()
+            {
+                var response = await http.GetStringAsync("/api/project/");
+            }
+
+            protected override async Task OnInitializedAsync()
+            {
+                await RefreshProjectsAsync();
+            }
+
+            private async Task RefreshProjectsAsync()
+            {
+                projects = await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/");
+            } }

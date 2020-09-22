@@ -23,6 +23,12 @@ namespace Portfolio.API.Controllers
         [HttpGet()]
         public async Task<IEnumerable<Project>> Get() => await repository.Projects.ToListAsync();
 
+        [HttpPost]
+        public async Task Post(Project project)
+        {
+            await repository.SaveProjectAsync(project);
+        }
+
         [HttpGet("[action]")]
         public async Task DefaultData()
         {
