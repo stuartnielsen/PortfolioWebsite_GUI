@@ -3,6 +3,7 @@
 @using Portfolio.Shared
 
 <h3>ProjectDetails @ProjectId</h3>
+<p>@projectName @projectRequirements @projectDesign @projectCompletionDate</p>
 
 
 @code {
@@ -21,10 +22,10 @@
     {
         var project = await http.GetFromJsonAsync<IEnumerable<Project>>($"api/project/projectdetails/{ProjectId}");
 
-        //projectName = project.Title;
-        //projectRequirements = project.Requirements;
-        //projectDesign = project.Design;
-        //projectCompletionDate = project.CompletionDate;
+        projectName = project.First().Title;
+        projectRequirements = project.First().Requirements;
+        projectDesign = project.First().Design;
+        projectCompletionDate = project.First().CompletionDate;
 
     }
 }
