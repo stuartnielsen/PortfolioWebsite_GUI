@@ -3,11 +3,27 @@
 @using Portfolio.Shared
 
 <h3>ProjectDetails @ProjectId</h3>
-<p>@projectName @projectRequirements @projectDesign @projectCompletionDate</p>
+
+<div class="form-group">
+    <label asp-for="Title">Project Title:</label>
+    <input @bind-value="@projectName" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="Body">Requirements: </label>
+    <input @bind-value="@projectRequirements" class="form-control" rows="4">
+</div>
+<div class="form-group">
+    <label asp-for="Body">Design: </label>
+    <input @bind-value="@projectDesign" class="form-control" rows="4">
+</div>
+<div class="form-group">
+    <label asp-for="Body">Completion Date: </label>
+    <input @bind-value="projectCompletionDate" type="date" />
+</div>
+<button @onclick="updateProject">save</button>
 
 
-@code {
-    [Parameter]
+@code { [Parameter]
     public int ProjectId { get; set; }
 
     private string projectName;
@@ -26,6 +42,22 @@
         projectRequirements = project.First().Requirements;
         projectDesign = project.First().Design;
         projectCompletionDate = project.First().CompletionDate;
-
     }
-}
+
+    private async Task updateProject()
+    {
+        var project = new Project
+        {
+            Title = projectName,
+            Requirements = projectRequirements,
+            Design = projectDesign,
+            CompletionDate = projectCompletionDate
+        };
+        try
+        {
+            var response = await http.PostAsJsonAsync("/api/project/update", project);
+        }
+        catch (Exception e)
+        {
+        }
+    } }

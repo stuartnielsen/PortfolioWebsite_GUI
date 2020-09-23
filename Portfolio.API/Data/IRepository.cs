@@ -11,5 +11,6 @@ namespace Portfolio.API.Data
         IQueryable<Project> Projects { get; }
         Task SaveProjectAsync(Project project);
         Task DeleteProjectAsync(Project project);
+        Task UpdateProjectDetailsAsync(Project project);
     }
 }
