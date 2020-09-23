@@ -6,17 +6,16 @@
 
 
 
-<head>
+@*<head>
     <meta name="viewport" content="width=device-width" />
     <title>Create New Project</title>
-</head>
+</head>*@
 <header>
     <h1 class="page-title">My Personal  Projects</h1>
     <br />
-    <h3>Using this application, you can check out my projects and their details!</h3>
 </header>
 <body>
-    <h5 class="bg-primary text-white text-center m-2 p-2">Create a Project</h5>
+    @*<h5 class="bg-primary text-white text-center m-2 p-2">Create a Project</h5>*@
     <div class="m-2">
         <div asp-validation-summary="All"></div>
         <div class="form-group">
@@ -37,7 +36,7 @@
         </div>
         <div>
         </div>
-        <button @onclick="addProject" class="btn btn-primary">Add Project</button>
+        @*<button @onclick="removeProject" class="btn btn-primary">Add Project</button>*@
     </div>
 </body>
 
@@ -45,14 +44,17 @@
 
 
 
-<button @onclick="loadProjects">Load Projects</button>
+@*<button @onclick="loadProjects">Load Projects</button>*@
 
 <hr />
 <h3>List of Projects</h3>
 <ul>
     @foreach (var p in projects)
     {
-<li><a href="/ProjectDetails/@p.Id"> @p.Title</a></li>}
+    <li>
+        <a href="/ProjectDetails/@p.Id"> @p.Title</a>
+        <button @onclick="addProject" class="btn btn-primary">Remove </button>
+    </li>}
 </ul>
 
 
@@ -60,44 +62,50 @@
 
 
 @code { private string newProjectName;
-            private string newProjectRequirements;
-            private string newProjectDesign;
-            private DateTime newProjectCompletionDate;
+    private string newProjectRequirements;
+    private string newProjectDesign;
+    private DateTime newProjectCompletionDate;
 
 
 
-            private IEnumerable<Project> projects = new List<Project>();
+    private IEnumerable<Project> projects = new List<Project>();
 
-            private async Task addProject()
-            {
-                var project = new Project
-                {
-                    Title = newProjectName,
-                    Requirements = newProjectRequirements,
-                    Design = newProjectDesign,
-                    CompletionDate = newProjectCompletionDate
-                };
-                try
-                {
-                    var response = await http.PostAsJsonAsync("/api/project/", project);
-                }
-                catch (Exception e)
-                {
-                }
-                await RefreshProjectsAsync();
-            }
+    private async Task addProject()
+    {
+        var project = new Project
+        {
+            Title = newProjectName,
+            Requirements = newProjectRequirements,
+            Design = newProjectDesign,
+            CompletionDate = newProjectCompletionDate
+        };
+        try
+        {
+            var response = await http.PostAsJsonAsync("/api/project/", project);
+        }
+        catch (Exception e)
+        {
+        }
+        await RefreshProjectsAsync();
+    }
+    //private async Task removeProject()
+    //{
+    //    await ;
+    //}
 
-            private async Task loadProjects()
-            {
-                var response = await http.GetStringAsync("/api/project/");
-            }
+    private async Task loadProjects()
+    {
+        var response = await http.GetStringAsync("/api/project/");
+    }
 
-            protected override async Task OnInitializedAsync()
-            {
-                await RefreshProjectsAsync();
-            }
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshProjectsAsync();
+    }
 
-            private async Task RefreshProjectsAsync()
-            {
-                projects = await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/");
-            } }
+    private async Task RefreshProjectsAsync()
+    {
+        projects = await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/");
+    }
+
+    }

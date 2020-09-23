@@ -1,4 +1,6 @@
 ﻿@page "/projectdetails/{ProjectId:int}"
+@inject HttpClient http
+@using Portfolio.Shared
 
 <h3>ProjectDetails @ProjectId</h3>
 
@@ -6,4 +8,23 @@
 @code {
     [Parameter]
     public int ProjectId { get; set; }
+
+    private string projectName;
+    private string projectRequirements;
+    private string projectDesign;
+    private DateTime projectCompletionDate;
+
+
+    private Project projects = new Project();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var project = await http.GetFromJsonAsync<IEnumerable<Project>>($"api/project/projectdetails/{ProjectId}");
+
+        //projectName = project.Title;
+        //projectRequirements = project.Requirements;
+        //projectDesign = project.Design;
+        //projectCompletionDate = project.CompletionDate;
+
+    }
 }

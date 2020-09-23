@@ -29,21 +29,16 @@ namespace Portfolio.API.Controllers
             await repository.SaveProjectAsync(project);
         }
 
-        [HttpGet("[action]")]
-        public async Task DefaultData()
+        [HttpGet("projectdetails/{id}")]
+        public IQueryable<Project> GetProjectDetailsById(int id)
         {
-            await repository.SaveProjectAsync(new Project
-            {
-                Title = "Project 1",
-                Requirements = "Demonstrate APIs with a database"
-            });
-
-
-            await repository.SaveProjectAsync(new Project
-            {
-                Title = "Project 2",
-                Requirements = "No, seriously. Do that."
-            });
+            return repository.Projects.Where(b => b.Id == id);
         }
+        [HttpDelete]
+        public async void DeleteProject(Project project)
+        {
+            await repository.DeleteProjectAsync(project);
+        }
+
     }
 }
