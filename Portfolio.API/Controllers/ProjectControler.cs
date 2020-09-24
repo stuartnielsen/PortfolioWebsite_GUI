@@ -34,14 +34,14 @@ namespace Portfolio.API.Controllers
         {
             return repository.Projects.Where(b => b.Id == id);
         }
-        [HttpDelete]
-        public async void DeleteProject(Project project)
+        [HttpDelete("[action]/{id}")]
+        public async Task DeleteProject(int id)
         {
-            await repository.DeleteProjectAsync(project);
+            await repository.DeleteProjectAsync(id);
         }
 
         [HttpPost("Update")]
-        public async void UpdateProjectDetails(Project project)
+        public async Task UpdateProjectDetails(Project project)
         {
             await repository.UpdateProjectDetailsAsync(project);
         }

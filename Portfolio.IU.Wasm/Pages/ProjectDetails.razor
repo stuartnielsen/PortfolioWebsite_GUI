@@ -32,12 +32,11 @@
     private DateTime projectCompletionDate;
 
 
-    private Project projects = new Project();
-
     protected override async Task OnInitializedAsync()
     {
         var project = await http.GetFromJsonAsync<IEnumerable<Project>>($"api/project/projectdetails/{ProjectId}");
 
+        
         projectName = project.First().Title;
         projectRequirements = project.First().Requirements;
         projectDesign = project.First().Design;
@@ -48,6 +47,7 @@
     {
         var project = new Project
         {
+            Id = ProjectId,
             Title = projectName,
             Requirements = projectRequirements,
             Design = projectDesign,

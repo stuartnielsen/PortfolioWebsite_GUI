@@ -7,9 +7,9 @@
 
 
 @*<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create New Project</title>
-</head>*@
+        <meta name="viewport" content="width=device-width" />
+        <title>Create New Project</title>
+    </head>*@
 <header>
     <h1 class="page-title">My Personal  Projects</h1>
     <br />
@@ -51,17 +51,19 @@
 <ul>
     @foreach (var p in projects)
     {
-    <li>
-        <a href="/ProjectDetails/@p.Id"> @p.Title</a>
-        @*<button @onclick="removeProject" class="btn btn-primary">Remove </button>*@
-    </li>}
+<li>
+    <a href="/ProjectDetails/@p.Id"> @p.Title</a>
+    <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
+</li>
+}
 </ul>
 
 
 
 
 
-@code { private string newProjectName;
+@code {
+    private string newProjectName;
     private string newProjectRequirements;
     private string newProjectDesign;
     private DateTime newProjectCompletionDate;
@@ -88,10 +90,12 @@
         }
         await RefreshProjectsAsync();
     }
-    //private async Task removeProject()
-    //{
-    //    await http.DeleteAsync("", project);
-    //}
+
+    private async Task  removeProject(Project project)
+    {
+        await http.DeleteAsync($"/api/project/deleteproject/{project.Id}");
+        await RefreshProjectsAsync();
+    }
 
     private async Task loadProjects()
     {
@@ -108,4 +112,4 @@
         projects = await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/");
     }
 
-    }
+}
