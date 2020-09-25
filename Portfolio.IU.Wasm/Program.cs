@@ -17,9 +17,10 @@ namespace Portfolio.IU.Wasm
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5005") });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://myportfolio-gui.herokuapp.com/api/project") });
 
             await builder.Build().RunAsync();
         }
     }
 }
+//http://localhost:5005
