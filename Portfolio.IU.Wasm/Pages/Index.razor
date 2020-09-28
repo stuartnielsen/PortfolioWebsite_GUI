@@ -44,7 +44,6 @@
 
 
 
-@*<button @onclick="loadProjects">Load Projects</button>*@
 
 <hr />
 <h3>List of Projects</h3>
@@ -52,7 +51,7 @@
     @foreach (var p in projects)
     {
 <li>
-    <a href="ProjectDetails/@p.Id"> @p.Title</a>
+    <a href="./ProjectDetails/@p.Id"> @p.Title</a>
     <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
 </li>
 }
