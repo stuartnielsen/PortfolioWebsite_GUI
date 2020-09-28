@@ -34,7 +34,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var project = await http.GetFromJsonAsync<IEnumerable<Project>>($"api/project/projectdetails/{ProjectId}");
+        var project = await http.GetFromJsonAsync<IEnumerable<Project>>($"/api/project/projectdetails/{ProjectId}");
 
         
         projectName = project.First().Title;
