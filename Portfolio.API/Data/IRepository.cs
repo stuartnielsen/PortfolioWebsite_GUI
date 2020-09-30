@@ -12,5 +12,7 @@ namespace Portfolio.API.Data
         Task SaveProjectAsync(Project project);
         Task DeleteProjectAsync(int id);
         Task UpdateProjectDetailsAsync(Project project);
+        Task AddCategoryAsync(Category category);
+        Task AssignCategoryAsync(ProjectCategory projectCategory);
     }
 }

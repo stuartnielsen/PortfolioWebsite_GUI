@@ -10,13 +10,22 @@ namespace Portfolio.Shared
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("title")]
         public string Title { get; set; }
+
         [JsonPropertyName("requirments")]
         public string Requirements { get; set; }
+
         [JsonPropertyName("design")]
         public string Design { get; set; }
+
         [JsonPropertyName("datecreated")]
         public DateTime CompletionDate { get; set; }
+
+        [JsonPropertyName("categories")]
+        public List<ProjectCategory> ProjectCategories { get; set; }
     }
 }
+
+

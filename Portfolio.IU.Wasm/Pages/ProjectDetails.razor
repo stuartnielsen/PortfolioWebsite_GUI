@@ -23,7 +23,7 @@
 <button @onclick="updateProject">save</button>
 
 
-@code { [Parameter]
+@code {     [Parameter]
     public int ProjectId { get; set; }
 
     private string projectName;
@@ -31,16 +31,20 @@
     private string projectDesign;
     private DateTime projectCompletionDate;
 
+    public Project SelectedProject { get; set; } = new Project();
+
 
     protected override async Task OnInitializedAsync()
     {
-        var project = await http.GetFromJsonAsync<IEnumerable<Project>>($"/api/project/projectdetails/{ProjectId}");
+        if (ProjectId == 0)
+            return;
+        var projects = (await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/"));
+        SelectedProject = projects.FirstOrDefault(p => p.Id == ProjectId);
 
-        
-        projectName = project.First().Title;
-        projectRequirements = project.First().Requirements;
-        projectDesign = project.First().Design;
-        projectCompletionDate = project.First().CompletionDate;
+        projectName = SelectedProject.Title;
+        projectRequirements = SelectedProject.Requirements;
+        projectDesign = SelectedProject.Design;
+        projectCompletionDate = SelectedProject.CompletionDate;
     }
 
     private async Task updateProject()

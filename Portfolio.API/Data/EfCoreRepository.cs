@@ -19,6 +19,14 @@ namespace Portfolio.API.Data
 
         public async Task SaveProjectAsync(Project project)
         {
+            //if (project.Id == 0)
+            //{
+            //    context.Projects.Add(project);
+            //}
+            //else
+            //{
+            //    context.Projects.Update(project);
+            //}
             context.Projects.Add(project);
             await context.SaveChangesAsync();
         }
@@ -33,6 +41,18 @@ namespace Portfolio.API.Data
         public async Task UpdateProjectDetailsAsync(Project project)
         {
             context.Projects.Update(project);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AddCategoryAsync(Category category)
+        {
+            context.Categories.Add(category);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AssignCategoryAsync(ProjectCategory projectCategory)
+        {
+            context.ProjectCategories.Add(projectCategory);
             await context.SaveChangesAsync();
         }
     }
