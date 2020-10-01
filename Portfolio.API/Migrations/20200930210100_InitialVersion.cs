@@ -9,7 +9,7 @@ namespace Portfolio.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Languages",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -18,7 +18,7 @@ namespace Portfolio.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.PrimaryKey("PK_Languages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,25 +38,25 @@ namespace Portfolio.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectCategories",
+                name: "ProjectLanguages",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProjectId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    LanguageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectCategories", x => x.Id);
+                    table.PrimaryKey("PK_ProjectLanguages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectCategories_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_ProjectLanguages_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectCategories_Projects_ProjectId",
+                        name: "FK_ProjectLanguages_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -64,23 +64,23 @@ namespace Portfolio.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectCategories_CategoryId",
-                table: "ProjectCategories",
-                column: "CategoryId");
+                name: "IX_ProjectLanguages_LanguageId",
+                table: "ProjectLanguages",
+                column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectCategories_ProjectId",
-                table: "ProjectCategories",
+                name: "IX_ProjectLanguages_ProjectId",
+                table: "ProjectLanguages",
                 column: "ProjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProjectCategories");
+                name: "ProjectLanguages");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Projects");

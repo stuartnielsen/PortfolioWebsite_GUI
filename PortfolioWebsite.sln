@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.API", "Portfolio.API\Portfolio.API.csproj", "{A2092DB1-B6E8-4F18-A6FB-8EFD7F68C30E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.IU.Wasm", "Portfolio.IU.Wasm\Portfolio.IU.Wasm.csproj", "{802B1E6C-D2BD-446A-ACE4-7D54530D7A04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.IU.Wasm", "Portfolio.IU.Wasm\Portfolio.IU.Wasm.csproj", "{802B1E6C-D2BD-446A-ACE4-7D54530D7A04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfolio.Shared", "Portfolio.Shared\Portfolio.Shared.csproj", "{434F3F5C-1BB8-4D79-98E2-22FAF75539F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfolio.Shared", "Portfolio.Shared\Portfolio.Shared.csproj", "{434F3F5C-1BB8-4D79-98E2-22FAF75539F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

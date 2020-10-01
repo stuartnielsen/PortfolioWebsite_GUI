@@ -19,7 +19,7 @@ namespace Portfolio.API.Migrations
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Portfolio.Shared.Category", b =>
+            modelBuilder.Entity("Portfolio.Shared.Language", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,7 +31,7 @@ namespace Portfolio.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Portfolio.Shared.Project", b =>
@@ -58,14 +58,14 @@ namespace Portfolio.API.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("Portfolio.Shared.ProjectCategory", b =>
+            modelBuilder.Entity("Portfolio.Shared.ProjectLanguage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("LanguageId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProjectId")
@@ -73,23 +73,23 @@ namespace Portfolio.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectCategories");
+                    b.ToTable("ProjectLanguages");
                 });
 
-            modelBuilder.Entity("Portfolio.Shared.ProjectCategory", b =>
+            modelBuilder.Entity("Portfolio.Shared.ProjectLanguage", b =>
                 {
-                    b.HasOne("Portfolio.Shared.Category", "Category")
-                        .WithMany("ProjectCategories")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("Portfolio.Shared.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Portfolio.Shared.Project", "Project")
-                        .WithMany("ProjectCategories")
+                        .WithMany("ProjectLanguages")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

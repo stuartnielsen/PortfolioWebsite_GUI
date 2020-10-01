@@ -1,5 +1,7 @@
-﻿@page "/projectdetails/{ProjectId:int}"
+﻿@page "/project/projectdetails/{ProjectId:int}"
 @inject HttpClient http
+@using Portfolio.Shared.ViewModels
+@*@inject Portfolio.BlazorWasm.ProjectApiService projectApi*@
 @using Portfolio.Shared
 
 <h3>ProjectDetails @ProjectId</h3>
@@ -21,24 +23,37 @@
     <input @bind-value="projectCompletionDate" type="date" />
 </div>
 <button @onclick="updateProject">save</button>
+<div>
+    <div>Language</div>
+    <div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>
+    <ul>
+        @foreach (var lang in SelectedProject.Languages)
+        {
+            <li><a href="langauges/@lang.Id">@lang.Name</a></li>
+        }
+    </ul>
+</div>
 
 
-@code {     [Parameter]
+@code { [Parameter]
     public int ProjectId { get; set; }
+    public int Id { get; set; }
+    string newLanguage;
 
     private string projectName;
     private string projectRequirements;
     private string projectDesign;
     private DateTime projectCompletionDate;
 
-    public Project SelectedProject { get; set; } = new Project();
+    public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
+    public Project project { get; set; } = new Project();
 
 
     protected override async Task OnInitializedAsync()
     {
         if (ProjectId == 0)
             return;
-        var projects = (await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/"));
+        var projects = (await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/"));
         SelectedProject = projects.FirstOrDefault(p => p.Id == ProjectId);
 
         projectName = SelectedProject.Title;
@@ -49,7 +64,7 @@
 
     private async Task updateProject()
     {
-        var project = new Project
+        var project = new ProjectViewModel
         {
             Id = ProjectId,
             Title = projectName,
@@ -64,4 +79,14 @@
         catch (Exception e)
         {
         }
-    } }
+    }
+
+    //async Task refreshAsync() => SelectedProject = await projectApi.GetProjectByIDAsync(Id);
+
+    private async Task assignLanguage()
+    {
+        //await projectApi.AssignAsync(Portfolio.Shared.Project.LanguageCategory, SelectedProject.Id, newLanguage);
+        //await refreshAsync();
+        throw new NotImplementedException();
+    }
+}

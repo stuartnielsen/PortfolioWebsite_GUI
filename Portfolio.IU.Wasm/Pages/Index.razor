@@ -1,5 +1,9 @@
 ﻿@page "/"
+@*@inject Portfolio.BlazorWasm.ProjectApiService projectApi*@
 @inject HttpClient http
+@using Microsoft.Extensions.Configuration
+@using Portfolio.Shared.ViewModels
+@inject IConfiguration config
 @using Portfolio.Shared
 
 
@@ -51,25 +55,24 @@
     @foreach (var p in projects)
     {
 <li>
-    <a href="./ProjectDetails/@p.Id"> @p.Title</a>
+    <a href="./project/projectdetails/@p.Id"> @p.Title</a>
     <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
-</li>
-}
+</li>}
 </ul>
 
 
 
 
 
-@code {
-    private string newProjectName;
+@code { private string newProjectName;
     private string newProjectRequirements;
     private string newProjectDesign;
     private DateTime newProjectCompletionDate;
 
 
 
-    private IEnumerable<Project> projects = new List<Project>();
+    private IEnumerable<ProjectViewModel> projects = new List<ProjectViewModel>();
+    private IEnumerable<Project> project = new List<Project>();
 
     private async Task addProject()
     {
@@ -90,7 +93,7 @@
         await RefreshProjectsAsync();
     }
 
-    private async Task  removeProject(Project project)
+    private async Task removeProject(ProjectViewModel project)
     {
         await http.DeleteAsync($"/api/project/deleteproject/{project.Id}");
         await RefreshProjectsAsync();
@@ -108,7 +111,5 @@
 
     private async Task RefreshProjectsAsync()
     {
-        projects = await http.GetFromJsonAsync<IEnumerable<Project>>("/api/project/");
-    }
-
-}
+        projects = await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/");
+    } }
