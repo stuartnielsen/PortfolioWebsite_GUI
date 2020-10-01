@@ -19,8 +19,16 @@ namespace Portfolio.API.Data
 
         public IQueryable<Project> Projects => context.Projects;
 
-        public async Task SaveProjectAsync(ProjectViewModel project)
+        public async Task SaveProjectAsync(ProjectViewModel projectViewModel)
         {
+            var project = new Project()
+            {
+                Title = projectViewModel.Title,
+                Requirements = projectViewModel.Requirements,
+                Design = projectViewModel.Design,
+                CompletionDate = projectViewModel.CompletionDate,
+            };
+
             //if (project.Id == 0)
             //{
             //    context.Projects.Add(project);
@@ -29,7 +37,7 @@ namespace Portfolio.API.Data
             //{
             //    context.Projects.Update(project);
             //}
-            context.ProjectViewModels.Add(project);
+            context.Projects.Add(project);
             await context.SaveChangesAsync();
         }
 
@@ -40,9 +48,18 @@ namespace Portfolio.API.Data
             await context.SaveChangesAsync();
         }
 
-        public async Task UpdateProjectDetailsAsync(ProjectViewModel project)
+        public async Task UpdateProjectDetailsAsync(ProjectViewModel projectViewModel)
         {
-            context.ProjectViewModels.Update(project);
+            var project = new Project()
+            {
+                Id = projectViewModel.Id,
+                Title = projectViewModel.Title,
+                Requirements = projectViewModel.Requirements,
+                Design = projectViewModel.Design,
+                CompletionDate = projectViewModel.CompletionDate,
+            };
+
+            context.Projects.Update(project);
             await context.SaveChangesAsync();
         }
 

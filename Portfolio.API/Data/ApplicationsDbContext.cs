@@ -15,7 +15,6 @@ namespace Portfolio.API.Data
 
         }
 
-        public DbSet<ProjectViewModel> ProjectViewModels { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Platform> Platforms { get; set; }
