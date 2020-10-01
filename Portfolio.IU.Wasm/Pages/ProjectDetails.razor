@@ -3,6 +3,7 @@
 @using Portfolio.Shared.ViewModels
 @*@inject Portfolio.BlazorWasm.ProjectApiService projectApi*@
 @using Portfolio.Shared
+@*@using Portfolio.BlazorWasm*@ 
 
 <h3>ProjectDetails @ProjectId</h3>
 
@@ -47,6 +48,7 @@
 
     public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
     public Project project { get; set; } = new Project();
+    //public ProjectApiService ProjectApi = new ProjectApiService();
 
 
     protected override async Task OnInitializedAsync()
@@ -87,6 +89,13 @@
     {
         //await projectApi.AssignAsync(Portfolio.Shared.Project.LanguageCategory, SelectedProject.Id, newLanguage);
         //await refreshAsync();
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        var assignBody = new AssignRequest
+        {
+            CategoryType = Portfolio.Shared.Project.LanguageCategory,
+            Name = newLanguage,
+            ProjectId = SelectedProject.Id,
+        };
+        await http.PostAsJsonAsync("api/project/assign/", assignBody);
     }
 }
