@@ -76,7 +76,7 @@
 
     private async Task addProject()
     {
-        var project = new Project
+        var project = new ProjectViewModel
         {
             Title = newProjectName,
             Requirements = newProjectRequirements,
@@ -85,7 +85,8 @@
         };
         try
         {
-            var response = await http.PostAsJsonAsync("/api/project/", project);
+            var response = await http.PostAsJsonAsync("/api/project", project); 
+            await RefreshProjectsAsync();
         }
         catch (Exception e)
         {

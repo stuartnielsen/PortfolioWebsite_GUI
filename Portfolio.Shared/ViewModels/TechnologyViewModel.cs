@@ -4,14 +4,15 @@ using System.Text;
 
 namespace Portfolio.Shared.ViewModels
 {
-    public class LanguageViewModel
+    public class TechnologyViewModel
     {
-        public LanguageViewModel() { }
-        public LanguageViewModel(Language l)
+        public TechnologyViewModel() { }
+        public TechnologyViewModel(Technology technology)
         {
-            Id = l.Id;
-            Name = l.Name;
+            Id = technology.Id;
+            Name = technology.Name;
         }
+
         public int Id { get; set; }
         public string Name { get; set; }
     }

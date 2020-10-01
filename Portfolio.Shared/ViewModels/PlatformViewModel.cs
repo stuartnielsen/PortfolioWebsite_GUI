@@ -4,14 +4,15 @@ using System.Text;
 
 namespace Portfolio.Shared.ViewModels
 {
-    public class LanguageViewModel
+    public class PlatformViewModel
     {
-        public LanguageViewModel() { }
-        public LanguageViewModel(Language l)
+        public PlatformViewModel() { }
+        public PlatformViewModel(Platform platform)
         {
-            Id = l.Id;
-            Name = l.Name;
+            Id = platform.Id;
+            Name = platform.Name;
         }
+
         public int Id { get; set; }
         public string Name { get; set; }
     }

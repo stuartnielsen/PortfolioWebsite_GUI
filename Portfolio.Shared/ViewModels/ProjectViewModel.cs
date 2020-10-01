@@ -10,6 +10,8 @@ namespace Portfolio.Shared.ViewModels
         public ProjectViewModel()
         {
             Languages = new List<LanguageViewModel>();
+            Platforms = new List<PlatformViewModel>();
+            Technologies = new List<TechnologyViewModel>();
         }
 
         public ProjectViewModel(Project p)
@@ -20,6 +22,8 @@ namespace Portfolio.Shared.ViewModels
             CompletionDate = p.CompletionDate;
             Design = p.Design;
             Languages = new List<LanguageViewModel>(p.ProjectLanguages.Select(pl => new LanguageViewModel(pl.Language)));
+            Platforms = new List<PlatformViewModel>(p.ProjectPlatforms.Select(pp => new PlatformViewModel(pp.Platform)));
+            Technologies = new List<TechnologyViewModel>(p.ProjectTechnologies.Select(pt => new TechnologyViewModel(pt.Technology)));
         }
 
         public int Id { get; set; }
@@ -28,6 +32,8 @@ namespace Portfolio.Shared.ViewModels
         public string Design { get; set; }
         public DateTime CompletionDate { get; set; }
         public IList<LanguageViewModel> Languages { get; set; }
+        public IList<PlatformViewModel> Platforms { get; set; }
+        public IList<TechnologyViewModel> Technologies { get; set; }
     }
 }
 

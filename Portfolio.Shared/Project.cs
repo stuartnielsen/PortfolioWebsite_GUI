@@ -29,6 +29,12 @@ namespace Portfolio.Shared
 
         [JsonPropertyName("categories")]
         public List<ProjectLanguage> ProjectLanguages { get; set; }
+
+        [JsonPropertyName("categories")]
+        public List<ProjectPlatform> ProjectPlatforms { get; set; }
+
+        [JsonPropertyName("categories")]
+        public List<ProjectTechnology> ProjectTechnologies { get; set; }
     }
 }
 

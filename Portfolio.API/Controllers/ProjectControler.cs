@@ -29,12 +29,16 @@ namespace Portfolio.API.Controllers
             return await repository.Projects
                 .Include(p => p.ProjectLanguages)
                     .ThenInclude(pc => pc.Language)
+                .Include(p => p.ProjectPlatforms)
+                    .ThenInclude(pc => pc.Platform)
+                .Include(p => p.ProjectTechnologies)
+                    .ThenInclude(pc => pc.Technology)
                     .Select(p => new ProjectViewModel(p))
                 .ToListAsync();
         }
 
         [HttpPost]
-        public async Task Post(Project project)
+        public async Task Post(ProjectViewModel project)
         {
             await repository.SaveProjectAsync(project);
         }
@@ -45,6 +49,10 @@ namespace Portfolio.API.Controllers
             var project = await repository.Projects
                .Include(p => p.ProjectLanguages)
                    .ThenInclude(pc => pc.Language)
+                .Include(p => p.ProjectPlatforms)
+                    .ThenInclude(pc => pc.Platform)
+                .Include(p => p.ProjectTechnologies)
+                    .ThenInclude(pc => pc.Technology)
                    .FirstOrDefaultAsync(p => p.Id == id);
                
             return new ProjectViewModel(project);
@@ -56,7 +64,7 @@ namespace Portfolio.API.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task UpdateProjectDetails(Project project)
+        public async Task UpdateProjectDetails(ProjectViewModel project)
         {
             await repository.UpdateProjectDetailsAsync(project);
         }

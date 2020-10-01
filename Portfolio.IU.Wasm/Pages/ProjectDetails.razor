@@ -3,7 +3,7 @@
 @using Portfolio.Shared.ViewModels
 @*@inject Portfolio.BlazorWasm.ProjectApiService projectApi*@
 @using Portfolio.Shared
-@*@using Portfolio.BlazorWasm*@ 
+@*@using Portfolio.BlazorWasm*@
 
 <h3>ProjectDetails @ProjectId</h3>
 
@@ -28,9 +28,27 @@
     <div>Language</div>
     <div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>
     <ul>
-        @foreach (var lang in SelectedProject.Languages)
+        @foreach (var language in SelectedProject.Languages)
         {
-            <li><a href="langauges/@lang.Id">@lang.Name</a></li>
+            <li><a href="langauges/@language.Id">@language.Name</a></li>
+        }
+    </ul>
+
+    <div>Platform</div>
+    <div><input @bind-value="newPlatform" /><button @onclick="assignPlatform">Add</button></div>
+    <ul>
+        @foreach (var platform in SelectedProject.Platforms)
+        {
+            <li><a href="platfrom/@platform.Id">@platform.Name</a></li>
+        }
+    </ul>
+
+    <div>Technology</div>
+    <div><input @bind-value="newTechnology" /><button @onclick="assignTechnology">Add</button></div>
+    <ul>
+        @foreach (var technology in SelectedProject.Technologies)
+        {
+            <li><a href="langauges/@technology.Id">@technology.Name</a></li>
         }
     </ul>
 </div>
@@ -39,7 +57,10 @@
 @code { [Parameter]
     public int ProjectId { get; set; }
     public int Id { get; set; }
+
     string newLanguage;
+    string newPlatform;
+    string newTechnology;
 
     private string projectName;
     private string projectRequirements;
@@ -66,7 +87,7 @@
 
     private async Task updateProject()
     {
-        var project = new Project
+        var project = new ProjectViewModel
         {
             Id = ProjectId,
             Title = projectName,
@@ -94,6 +115,28 @@
         {
             CategoryType = Portfolio.Shared.Project.LanguageCategory,
             Name = newLanguage,
+            ProjectId = SelectedProject.Id,
+        };
+        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+    }
+
+    private async Task assignPlatform()
+    {        
+        var assignBody = new AssignRequest
+        {
+            CategoryType = Portfolio.Shared.Project.PlatformCategory,
+            Name = newPlatform,
+            ProjectId = SelectedProject.Id,
+        };
+        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+    }
+
+    private async Task assignTechnology()
+    {        
+        var assignBody = new AssignRequest
+        {
+            CategoryType = Portfolio.Shared.Project.TechnologyCategory,
+            Name = newTechnology,
             ProjectId = SelectedProject.Id,
         };
         await http.PostAsJsonAsync("api/project/assign/", assignBody);
