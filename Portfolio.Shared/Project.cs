@@ -27,13 +27,13 @@ namespace Portfolio.Shared
         [JsonPropertyName("datecreated")]
         public DateTime CompletionDate { get; set; }
 
-        [JsonPropertyName("categories")]
+        [JsonPropertyName("languages")]
         public List<ProjectLanguage> ProjectLanguages { get; set; }
 
-        [JsonPropertyName("categories")]
+        [JsonPropertyName("platforms")]
         public List<ProjectPlatform> ProjectPlatforms { get; set; }
 
-        [JsonPropertyName("categories")]
+        [JsonPropertyName("technologies")]
         public List<ProjectTechnology> ProjectTechnologies { get; set; }
     }
 }

@@ -24,7 +24,6 @@ namespace Portfolio.API.Controllers
 
         [HttpGet()]
         public async Task<List<ProjectViewModel>> Get()
-        //=> await repository.Projects.ToListAsync();
         {
             return await repository.Projects
                 .Include(p => p.ProjectLanguages)

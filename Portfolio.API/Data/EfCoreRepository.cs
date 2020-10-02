@@ -18,6 +18,11 @@ namespace Portfolio.API.Data
         }
 
         public IQueryable<Project> Projects => context.Projects;
+        public IQueryable<Language> Languages => context.Languages;
+
+        public IQueryable<Platform> Platforms => context.Platforms;
+
+        public IQueryable<Technology> Technologies => context.Technologies;
 
         public async Task SaveProjectAsync(ProjectViewModel projectViewModel)
         {
