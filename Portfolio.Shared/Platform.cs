@@ -8,5 +8,10 @@ namespace Portfolio.Shared
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public IList<ProjectPlatform> ProjectPlatforms { get; set; }
+        public Platform()
+        {
+            ProjectPlatforms = new List<ProjectPlatform>();
+        }
     }
 }

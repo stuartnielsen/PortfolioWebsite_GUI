@@ -24,8 +24,8 @@ namespace Portfolio.API.Controllers
         public async Task<List<LanguageViewModel>> GetLanguages()
         {
             return await repository.Languages
-                .Include(l => l.ProjectLanguages)
-                .ThenInclude(pl => pl.Project)
+                //.Include(l => l.ProjectLanguages)
+                //.ThenInclude(pl => pl.Project)
                 .Select(p => new LanguageViewModel(p))
                 .ToListAsync();
         }
@@ -34,7 +34,9 @@ namespace Portfolio.API.Controllers
         public async Task<List<PlatformViewModel>> GetPlatforms()
         {
             return await repository.Platforms
-                    .Select(p => new PlatformViewModel(p))
+                //.Include(p => p.ProjectPlatforms)
+                //.ThenINclude(pp => pp.Project)
+                .Select(p => new PlatformViewModel(p))
                 .ToListAsync();
         }
 
@@ -42,17 +44,39 @@ namespace Portfolio.API.Controllers
         public async Task<List<TechnologyViewModel>> GetTechnologies()
         {
             return await repository.Technologies
-                    .Select(p => new TechnologyViewModel(p))
+                //.Include(t => t.ProjectTechnologies)
+                //.ThenINcliude(pt => pt.Project)
+                .Select(p => new TechnologyViewModel(p))
                 .ToListAsync();
         }
 
-        [HttpGet("/language")]
+        [HttpGet("language")]
         public async Task<List<LanguageViewModel>> GetLangaugesWithProjects()
         {
             return await repository.Languages
                 .Include(l => l.ProjectLanguages)
                     .ThenInclude(pl => pl.Project)
                     .Select(p => new LanguageViewModel(p))
+                .ToListAsync();
+        }
+
+        [HttpGet("platform")]
+        public async Task<List<PlatformViewModel>> GetPlatformsWithProjects()
+        {
+            return await repository.Platforms
+                .Include(p => p.ProjectPlatforms)
+                .ThenInclude(pp => pp.Project)
+                .Select(p => new PlatformViewModel(p))
+                .ToListAsync();
+        }
+
+        [HttpGet("technology")]
+        public async Task<List<TechnologyViewModel>> GetTechnologiesWithProjects()
+        {
+            return await repository.Technologies
+                .Include(t => t.ProjectTechnologies)
+                .ThenInclude(pt => pt.Project)
+                .Select(p => new TechnologyViewModel(p))
                 .ToListAsync();
         }
     }

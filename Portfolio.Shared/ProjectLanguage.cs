@@ -10,7 +10,6 @@ namespace Portfolio.Shared
         public int Id { get; set; }
         public int ProjectId { get; set; }
         public Project Project { get; set; }
-        //public BasicProject BasicProject { get; set; }
         public int LanguageId { get; set; }
         public Language Language { get; set; }
     }

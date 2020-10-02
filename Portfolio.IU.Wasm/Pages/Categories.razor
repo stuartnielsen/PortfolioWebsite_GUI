@@ -1,4 +1,4 @@
-﻿@page "/categories"
+﻿@page "/category"
 
 @inject HttpClient http
 @using Portfolio.Shared.ViewModels
@@ -16,7 +16,7 @@
     </ul>
 </div>
 <div>
-    <h4>Platforms</h4>
+    <h4><a href="./platform">Platforms</a></h4>
     <ul>
         @foreach (var p in platforms)
         {

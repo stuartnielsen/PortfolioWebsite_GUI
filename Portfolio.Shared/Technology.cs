@@ -8,5 +8,10 @@ namespace Portfolio.Shared
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public IList<ProjectTechnology> ProjectTechnologies { get; set; }
+        public Technology()
+        {
+            ProjectTechnologies = new List<ProjectTechnology>();
+        }
     }
 }
