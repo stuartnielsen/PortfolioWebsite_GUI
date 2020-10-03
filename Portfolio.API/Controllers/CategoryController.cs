@@ -34,8 +34,6 @@ namespace Portfolio.API.Controllers
         public async Task<List<PlatformViewModel>> GetPlatforms()
         {
             return await repository.Platforms
-                //.Include(p => p.ProjectPlatforms)
-                //.ThenINclude(pp => pp.Project)
                 .Select(p => new PlatformViewModel(p))
                 .ToListAsync();
         }
@@ -44,8 +42,6 @@ namespace Portfolio.API.Controllers
         public async Task<List<TechnologyViewModel>> GetTechnologies()
         {
             return await repository.Technologies
-                //.Include(t => t.ProjectTechnologies)
-                //.ThenINcliude(pt => pt.Project)
                 .Select(p => new TechnologyViewModel(p))
                 .ToListAsync();
         }

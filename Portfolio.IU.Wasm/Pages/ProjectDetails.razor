@@ -1,9 +1,7 @@
 ﻿@page "/project/projectdetails/{ProjectId:int}"
 @inject HttpClient http
 @using Portfolio.Shared.ViewModels
-@*@inject Portfolio.BlazorWasm.ProjectApiService projectApi*@
 @using Portfolio.Shared
-@*@using Portfolio.BlazorWasm*@
 
 <h3>ProjectDetails @ProjectId</h3>
 
@@ -69,7 +67,6 @@
 
     public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
     public Project project { get; set; } = new Project();
-    //public ProjectApiService ProjectApi = new ProjectApiService();
 
 
     protected override async Task OnInitializedAsync()
@@ -104,13 +101,9 @@
         }
     }
 
-    //async Task refreshAsync() => SelectedProject = await projectApi.GetProjectByIDAsync(Id);
 
     private async Task assignLanguage()
     {
-        //await projectApi.AssignAsync(Portfolio.Shared.Project.LanguageCategory, SelectedProject.Id, newLanguage);
-        //await refreshAsync();
-        //throw new NotImplementedException();
         var assignBody = new AssignRequest
         {
             CategoryType = Portfolio.Shared.Project.LanguageCategory,
@@ -118,10 +111,12 @@
             ProjectId = SelectedProject.Id,
         };
         await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        newLanguage = "";
+        await OnInitializedAsync();
     }
 
     private async Task assignPlatform()
-    {        
+    {
         var assignBody = new AssignRequest
         {
             CategoryType = Portfolio.Shared.Project.PlatformCategory,
@@ -129,10 +124,12 @@
             ProjectId = SelectedProject.Id,
         };
         await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        newPlatform = "";
+        await OnInitializedAsync();
     }
 
     private async Task assignTechnology()
-    {        
+    {
         var assignBody = new AssignRequest
         {
             CategoryType = Portfolio.Shared.Project.TechnologyCategory,
@@ -140,5 +137,9 @@
             ProjectId = SelectedProject.Id,
         };
         await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        newTechnology = "";
+        await OnInitializedAsync();
     }
+
+   
 }
