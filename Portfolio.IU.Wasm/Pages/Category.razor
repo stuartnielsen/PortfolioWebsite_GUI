@@ -5,35 +5,35 @@
 
 <h3>Categories</h3>
 <div>
-    <h4>Languages</h4>
+    <h4><a href="category/language">Languages</a></h4>
     <ul>
         @foreach (var l in languages)
         {
             <li>
-                <a href="./language/@l.Id"> @l.Name</a>
+                <a href="category/language/#@l.Name"> @l.Name</a>
             </li>
         }
     </ul>
 </div>
 <div>
-    <h4><a href="./platform">Platforms</a></h4>
+    <h4><a href="category/platform">Platforms</a></h4>
     <ul>
         @foreach (var p in platforms)
         {
             <li>
-                <a href="./platform/@p.Id"> @p.Name</a>
+                <a href="category/platform/#@p.Name"> @p.Name</a>
             </li>
         }
     </ul>
 </div>
 
 <div>
-    <h4>Technologies</h4>
+    <h4><a href="category/technology">Technologies</a></h4>
     <ul>
         @foreach (var t in technologies)
         {
             <li>
-                <a href="./language/@t.Id"> @t.Name</a>
+                <a href="category/technology/#@t.Name"> @t.Name</a>
             </li>
         }
     </ul>
