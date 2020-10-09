@@ -66,7 +66,18 @@ namespace Portfolio.API.Data
                 CompletionDate = projectViewModel.CompletionDate,
             };
 
-            context.Projects.Update(project);
+                if (project.Id == 0)
+            {
+                project.Slug = project.Title.ToSlug();
+                context.Projects.Update(project);
+            }
+            else
+            {
+                project.Slug = project.Title.ToSlug();
+                context.Projects.Update(project);
+            }       
+
+            //context.Projects.Update(project);
             await context.SaveChangesAsync();
         }
 

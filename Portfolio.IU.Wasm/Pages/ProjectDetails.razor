@@ -4,8 +4,8 @@
 @using Portfolio.Shared
 
 
-<MarkdownView Content ="@projectRequirements"/>
-<h3>ProjectDetails @ProjectId</h3>
+
+<h3> @projectName</h3>
 
 <div class="form-group">
     <label asp-for="Title">Project Title:</label>
@@ -52,7 +52,7 @@
         }
     </ul>
 </div>
-
+<MarkdownView Content="@projectRequirements" />
 
 
 @code { [Parameter]
@@ -92,11 +92,11 @@
     {
         var project = new ProjectViewModel
         {
-            Id = ProjectId,
+            Id = SelectedProject.Id,
             Title = projectName,
             Requirements = projectRequirements,
             Design = projectDesign,
-            CompletionDate = projectCompletionDate
+            CompletionDate = projectCompletionDate,
         };
         try
         {
