@@ -18,6 +18,9 @@ namespace Portfolio.Shared
         [JsonPropertyName("title")]
         public string Title { get; set; }
 
+        [JsonPropertyName("slug")]
+        public string Slug { get; set; }
+
         [JsonPropertyName("requirments")]
         public string Requirements { get; set; }
 

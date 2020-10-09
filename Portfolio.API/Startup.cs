@@ -16,64 +16,65 @@ namespace Portfolio.API
 {
     public class Startup
     {
-       
-            public Startup(IConfiguration configuration)
-            {
-                Configuration = configuration;
-            }
 
-            public IConfiguration Configuration { get; }
-
-            // This method gets called by the runtime. Use this method to add services to the container.
-            public void ConfigureServices(IServiceCollection services)
-            {
-                services.AddControllers();
-                services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(convertUrlConnectionString(Configuration["DATABASE_URL"])));
-                services.AddScoped<IRepository, EfCoreRepository>();
-                services.AddCors(options =>
-                {
-                    options.AddDefaultPolicy(
-                        builder =>
-                        {
-                            builder.AllowAnyOrigin()
-                                   .AllowAnyMethod()
-                                   .AllowAnyHeader();
-                        });
-                });
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
         }
 
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(convertUrlConnectionString(Configuration["DATABASE_URL"])));
+            services.AddScoped<IRepository, EfCoreRepository>();
+            services.AddCors(options =>
             {
-                if (env.IsDevelopment())
-                {
-                    app.UseDeveloperExceptionPage();
-                }
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
+        }
 
-                app.UseRouting();
-                app.UseCors();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-                app.UseAuthorization();
+            app.UseRouting();
+            app.UseCors();
 
-                app.UseEndpoints(endpoints =>
+            app.UseAuthorization();
+            //app.UseStaticFiles();
+
+            app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
                 });
-            }
+        }
 
-            private static string convertUrlConnectionString(string url)
-            {
-                if (!url.Contains("//"))
-                    return url;
-                var uri = new Uri(url);
-                var host = uri.Host;
-                var port = uri.Port;
-                var database = uri.Segments.Last();
-                var parts = uri.AbsoluteUri.Split(':', '/', '@');
-                var user = parts[3];
-                var password = parts[4];
+        private static string convertUrlConnectionString(string url)
+        {
+            if (!url.Contains("//"))
+                return url;
+            var uri = new Uri(url);
+            var host = uri.Host;
+            var port = uri.Port;
+            var database = uri.Segments.Last();
+            var parts = uri.AbsoluteUri.Split(':', '/', '@');
+            var user = parts[3];
+            var password = parts[4];
 
-                return $"host={host}; port={port}; database={database}; username={user}; password={password}; SSL Mode=Prefer; Trust Server Certificate=true";
-            }
+            return $"host={host}; port={port}; database={database}; username={user}; password={password}; SSL Mode=Prefer; Trust Server Certificate=true";
         }
     }
+}

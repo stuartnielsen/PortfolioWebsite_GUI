@@ -34,15 +34,17 @@ namespace Portfolio.API.Data
                 CompletionDate = projectViewModel.CompletionDate,
             };
 
-            //if (project.Id == 0)
-            //{
-            //    context.Projects.Add(project);
-            //}
-            //else
-            //{
-            //    context.Projects.Update(project);
-            //}
-            context.Projects.Add(project);
+            if (project.Id == 0)
+            {
+                project.Slug = project.Title.ToSlug();
+                context.Projects.Add(project);
+            }
+            else
+            {
+                project.Slug = project.Title.ToSlug();
+                context.Projects.Update(project);
+            }
+            //context.Projects.Add(project);
             await context.SaveChangesAsync();
         }
 
