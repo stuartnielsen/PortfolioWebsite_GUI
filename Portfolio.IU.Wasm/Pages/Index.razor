@@ -51,14 +51,15 @@
 
 <hr />
 <h3>List of Projects</h3>
-<ul>
+<ListOfProjects/>
+@*<ul>
     @foreach (var p in projects)
     {
 <li>
     <a href="./project/projectdetails/@p.Slug"> @p.Title</a>
     <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
 </li>}
-</ul>
+</ul>*@
 
 
 
@@ -113,4 +114,5 @@
     private async Task RefreshProjectsAsync()
     {
         projects = await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/");
-    } }
+    } 
+}

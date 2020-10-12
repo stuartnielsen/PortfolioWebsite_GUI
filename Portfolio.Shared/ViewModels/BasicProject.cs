@@ -18,6 +18,7 @@ namespace Portfolio.Shared.ViewModels
         {
             Id = p.Id;
             Title = p.Title;
+            Slug = p.Slug;
             Requirements = p.Requirements;
             CompletionDate = p.CompletionDate;
             Design = p.Design;
@@ -28,6 +29,7 @@ namespace Portfolio.Shared.ViewModels
 
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Slug { get; set; }
         public string Requirements { get; set; }
         public string Design { get; set; }
         public DateTime CompletionDate { get; set; }

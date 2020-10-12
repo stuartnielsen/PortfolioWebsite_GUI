@@ -1,0 +1,32 @@
+﻿@inject HttpClient http
+@using Portfolio.Shared.ViewModels
+
+<ul>
+    @foreach (var p in projects)
+    {
+        <li>
+            <a href="./project/projectdetails/@p.Slug"> @p.Title</a>
+            <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
+        </li>
+    }
+</ul>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshProjectsAsync();
+    }
+
+    private IEnumerable<ProjectViewModel> projects = new List<ProjectViewModel>();
+
+    private async Task removeProject(ProjectViewModel project)
+    {
+        await http.DeleteAsync($"/api/project/deleteproject/{project.Id}");
+        await RefreshProjectsAsync();
+    }
+
+    private async Task RefreshProjectsAsync()
+    {
+        projects = await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/");
+    }
+}
