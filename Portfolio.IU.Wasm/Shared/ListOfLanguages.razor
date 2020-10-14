@@ -1,0 +1,14 @@
+﻿@using Portfolio.Shared.ViewModels
+
+
+<ul>
+    @foreach (var language in SelectedProject.Languages)
+    {
+        <li><a href="category/language/#@language.Name">@language.Name</a></li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
+}

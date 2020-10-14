@@ -15,59 +15,23 @@
     <MarkdownView Content="@projectDesign" />
 </div>
 
-@*<div class="form-group">
-        <label asp-for="Title">Project Title:</label>
-        <input @bind-value="@projectName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Body">Requirements: </label>
-        <input @bind-value="@projectRequirements" class="form-control" rows="4">
-    </div>
-    <div class="form-group">
-        <label asp-for="Body">Design: </label>
-        <input @bind-value="@projectDesign" class="form-control" rows="4">
-    </div>
-    <div class="form-group">
-        <label asp-for="Body">Completion Date: </label>
-        <input @bind-value="projectCompletionDate" type="date" />
-    </div>*@
-@*<button @onclick="updateProject">save</button>*@
+
 <div >
     <div class="category">
         <div>Language</div>
-        @*<div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>*@
-        <ul>
-            @foreach (var language in SelectedProject.Languages)
-            {
-                <li><a href="category/language/#@language.Name">@language.Name</a></li>
-            }
-        </ul>
-
+        <ListOfLanguages SelectedProject="@SelectedProject"/>
     </div>
+
     <div class="category">
         <div>Platform</div>
-        @*<div><input @bind-value="newPlatform" /><button @onclick="assignPlatform">Add</button></div>*@
-        <ul>
-            @foreach (var platform in SelectedProject.Platforms)
-            {
-                <li><a href="category/platform/#@platform.Name">@platform.Name</a></li>
-            }
-        </ul>
-
+        <ListOfPlatforms SelectedProject="@SelectedProject" />
     </div>
+
     <div class="category">
         <div>Technology</div>
-        @*<div><input @bind-value="newTechnology" /><button @onclick="assignTechnology">Add</button></div>*@
-        <ul>
-            @foreach (var technology in SelectedProject.Technologies)
-            {
-                <li><a href="category/technology/#@technology.Name">@technology.Name</a></li>
-            }
-        </ul>
-
+        <ListOfTechnologies SelectedProject="@SelectedProject" />
     </div>
 </div>
-@*<MarkdownView Content="@projectRequirements" />*@
 
 
 @code { [Parameter]
@@ -93,8 +57,6 @@
     {
         if (Slug == null)
             return;
-        //var projects = (await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/"));
-        //SelectedProject = projects.FirstOrDefault(p => p.Id == ProjectId);
         SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
 
         projectName = SelectedProject.Title;

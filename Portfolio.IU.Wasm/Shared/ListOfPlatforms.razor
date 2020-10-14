@@ -1,0 +1,14 @@
+﻿@using Portfolio.Shared.ViewModels
+
+<ul>
+    @foreach (var platform in SelectedProject.Platforms)
+    {
+        <li><a href="category/platform/#@platform.Name">@platform.Name</a></li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
+
+}

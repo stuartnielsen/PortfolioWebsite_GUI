@@ -1,0 +1,14 @@
+﻿@using Portfolio.Shared.ViewModels
+
+<ul>
+    @foreach (var technology in SelectedProject.Technologies)
+    {
+        <li><a href="category/technology/#@technology.Name">@technology.Name</a></li>
+    }
+</ul>
+@code {
+    [Parameter]
+    public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
+
+
+}
