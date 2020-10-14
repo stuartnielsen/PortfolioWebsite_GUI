@@ -1,73 +1,58 @@
-﻿@page "/project/projectdetails/{Slug}"
+﻿@page "/project/projectdetails/edit/{Slug}"
 @inject HttpClient http
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
 
 
-<div class="project-header">
-    <h3> @projectName</h3>
-    @projectCompletionDate
-</div>
 
-<a href="project/projectdetails/edit/@Slug">edit</a>
+<h3> @projectName</h3>
+
+<div class="form-group">
+    <label asp-for="Title">Project Title:</label>
+    <input @bind-value="@projectName" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="Body">Requirements: </label>
+    <textarea @bind=projectRequirements class="form-control" rows="4">@projectRequirements</textarea>
+</div>
+<div class="form-group">
+    <label asp-for="Body">Design: </label>
+    <input @bind-value="@projectDesign" class="form-control" rows="4">
+</div>
+<div class="form-group">
+    <label asp-for="Body">Completion Date: </label>
+    <input @bind-value="projectCompletionDate" type="date" />
+</div>
+<button @onclick="updateProject">save</button>
 <div>
-    <MarkdownView Content="@projectRequirements" />
-    <MarkdownView Content="@projectDesign" />
+    <div>Language</div>
+    <div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>
+    <ul>
+        @foreach (var language in SelectedProject.Languages)
+        {
+            <li><a href="category/language/#@language.Name">@language.Name</a></li>
+        }
+    </ul>
+
+    <div>Platform</div>
+    <div><input @bind-value="newPlatform" /><button @onclick="assignPlatform">Add</button></div>
+    <ul>
+        @foreach (var platform in SelectedProject.Platforms)
+        {
+            <li><a href="category/platform/#@platform.Name">@platform.Name</a></li>
+        }
+    </ul>
+
+    <div>Technology</div>
+    <div><input @bind-value="newTechnology" /><button @onclick="assignTechnology">Add</button></div>
+    <ul>
+        @foreach (var technology in SelectedProject.Technologies)
+        {
+            <li><a href="category/technology/#@technology.Name">@technology.Name</a></li>
+        }
+    </ul>
 </div>
-
-@*<div class="form-group">
-        <label asp-for="Title">Project Title:</label>
-        <input @bind-value="@projectName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Body">Requirements: </label>
-        <input @bind-value="@projectRequirements" class="form-control" rows="4">
-    </div>
-    <div class="form-group">
-        <label asp-for="Body">Design: </label>
-        <input @bind-value="@projectDesign" class="form-control" rows="4">
-    </div>
-    <div class="form-group">
-        <label asp-for="Body">Completion Date: </label>
-        <input @bind-value="projectCompletionDate" type="date" />
-    </div>*@
-@*<button @onclick="updateProject">save</button>*@
-<div >
-    <div class="category">
-        <div>Language</div>
-        @*<div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>*@
-        <ul>
-            @foreach (var language in SelectedProject.Languages)
-            {
-                <li><a href="category/language/#@language.Name">@language.Name</a></li>
-            }
-        </ul>
-
-    </div>
-    <div class="category">
-        <div>Platform</div>
-        @*<div><input @bind-value="newPlatform" /><button @onclick="assignPlatform">Add</button></div>*@
-        <ul>
-            @foreach (var platform in SelectedProject.Platforms)
-            {
-                <li><a href="category/platform/#@platform.Name">@platform.Name</a></li>
-            }
-        </ul>
-
-    </div>
-    <div class="category">
-        <div>Technology</div>
-        @*<div><input @bind-value="newTechnology" /><button @onclick="assignTechnology">Add</button></div>*@
-        <ul>
-            @foreach (var technology in SelectedProject.Technologies)
-            {
-                <li><a href="category/technology/#@technology.Name">@technology.Name</a></li>
-            }
-        </ul>
-
-    </div>
-</div>
-@*<MarkdownView Content="@projectRequirements" />*@
+<MarkdownView Content="@projectRequirements" />
 
 
 @code { [Parameter]
