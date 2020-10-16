@@ -2,6 +2,7 @@
 @inject HttpClient http
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
+@using Markdig.SyntaxHighlighting
 <body>
     <content class="main-article">
         <div class="project-header">
@@ -125,6 +126,6 @@
         newTechnology = "";
         await OnInitializedAsync();
     }
-
+    
 
 }

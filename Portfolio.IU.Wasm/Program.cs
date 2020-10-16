@@ -28,7 +28,7 @@ namespace Portfolio.IU.Wasm
                 var sanitizer = new Ganss.XSS.HtmlSanitizer();
                 sanitizer.AllowedAttributes.Add("class");
                 return sanitizer;
-            });
+            }); 
 
             await builder.Build().RunAsync();
         }

@@ -2,6 +2,8 @@
 @inject HttpClient http
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
+@using Markdig.SyntaxHighlighting
+@using Markdig
 
 
 
@@ -41,99 +43,103 @@
         <ListOfTechnologies SelectedProject="@SelectedProject" />
     </div>
 
-        </div>
-        <MarkdownView Content="@projectRequirements" />
+</div>
+<MarkdownView Content="@projectRequirements" />
 
 
-        @code { [Parameter]
-            public int ProjectId { get; set; }
-            [Parameter]
-            public string Slug { get; set; }
-            public int Id { get; set; }
+@code { [Parameter]
+    public int ProjectId { get; set; }
+    [Parameter]
+    public string Slug { get; set; }
+    public int Id { get; set; }
 
-            string newLanguage;
-            string newPlatform;
-            string newTechnology;
+    string newLanguage;
+    string newPlatform;
+    string newTechnology;
 
-            private string projectName;
-            private string projectRequirements;
-            private string projectDesign;
-            private DateTime projectCompletionDate;
+    private string projectName;
+    private string projectRequirements;
+    private string projectDesign;
+    private DateTime projectCompletionDate;
 
-            public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
-            public Project project { get; set; } = new Project();
-
-
-            protected override async Task OnInitializedAsync()
-            {
-                if (Slug == null)
-                    return;
-                SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
-
-                projectName = SelectedProject.Title;
-                projectRequirements = SelectedProject.Requirements;
-                projectDesign = SelectedProject.Design;
-                projectCompletionDate = SelectedProject.CompletionDate;
-            }
-
-            private async Task updateProject()
-            {
-                var project = new ProjectViewModel
-                {
-                    Id = SelectedProject.Id,
-                    Title = projectName,
-                    Requirements = projectRequirements,
-                    Design = projectDesign,
-                    CompletionDate = projectCompletionDate,
-                };
-                try
-                {
-                    var response = await http.PostAsJsonAsync("/api/project/update", project);
-                }
-                catch (Exception e)
-                {
-                }
-            }
+    public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
+    public Project project { get; set; } = new Project();
 
 
-            private async Task assignLanguage()
-            {
-                var assignBody = new AssignRequest
-                {
-                    CategoryType = Portfolio.Shared.Project.LanguageCategory,
-                    Name = newLanguage,
-                    ProjectId = SelectedProject.Id,
-                };
-                await http.PostAsJsonAsync("api/project/assign/", assignBody);
-                newLanguage = "";
-                await OnInitializedAsync();
-            }
+    protected override async Task OnInitializedAsync()
+    {
+        if (Slug == null)
+            return;
+        SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
 
-            private async Task assignPlatform()
-            {
-                var assignBody = new AssignRequest
-                {
-                    CategoryType = Portfolio.Shared.Project.PlatformCategory,
-                    Name = newPlatform,
-                    ProjectId = SelectedProject.Id,
-                };
-                await http.PostAsJsonAsync("api/project/assign/", assignBody);
-                newPlatform = "";
-                await OnInitializedAsync();
-            }
+        projectName = SelectedProject.Title;
+        projectRequirements =  Markdig.Markdown.ToHtml(SelectedProject.Requirements, new MarkdownPipelineBuilder()
+           .UseAdvancedExtensions()
+           .UseSyntaxHighlighting()
+           .Build()); ;
+        projectDesign = SelectedProject.Design;
+        projectCompletionDate = SelectedProject.CompletionDate;
+    }
 
-            private async Task assignTechnology()
-            {
-                var assignBody = new AssignRequest
-                {
-                    CategoryType = Portfolio.Shared.Project.TechnologyCategory,
-                    Name = newTechnology,
-                    ProjectId = SelectedProject.Id,
-                };
-                await http.PostAsJsonAsync("api/project/assign/", assignBody);
-                newTechnology = "";
-                await OnInitializedAsync();
-            }
+    private async Task updateProject()
+    {
+        var project = new ProjectViewModel
+        {
+            Id = SelectedProject.Id,
+            Title = projectName,
+            Requirements = projectRequirements,
+            Design = projectDesign,
+            CompletionDate = projectCompletionDate,
+        };
 
-
+        try
+        {
+            var response = await http.PostAsJsonAsync("/api/project/update", project);
         }
+        catch (Exception e)
+        {
+        }
+    }
+
+
+    private async Task assignLanguage()
+    {
+        var assignBody = new AssignRequest
+        {
+            CategoryType = Portfolio.Shared.Project.LanguageCategory,
+            Name = newLanguage,
+            ProjectId = SelectedProject.Id,
+        };
+        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        newLanguage = "";
+        await OnInitializedAsync();
+    }
+
+    private async Task assignPlatform()
+    {
+        var assignBody = new AssignRequest
+        {
+            CategoryType = Portfolio.Shared.Project.PlatformCategory,
+            Name = newPlatform,
+            ProjectId = SelectedProject.Id,
+        };
+        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        newPlatform = "";
+        await OnInitializedAsync();
+    }
+
+    private async Task assignTechnology()
+    {
+        var assignBody = new AssignRequest
+        {
+            CategoryType = Portfolio.Shared.Project.TechnologyCategory,
+            Name = newTechnology,
+            ProjectId = SelectedProject.Id,
+        };
+        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        newTechnology = "";
+        await OnInitializedAsync();
+    }
+
+
+}

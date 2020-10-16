@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="HtmlSanitizer" Version="5.0.353" />
     <PackageReference Include="Markdig" Version="0.22.0" />
+    <PackageReference Include="Markdig.SyntaxHighlighting" Version="1.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
