@@ -1,0 +1,3 @@
+Improvments:
+Be able to remove a category from a project in the edit page.
+restrict access to add and remove items.
