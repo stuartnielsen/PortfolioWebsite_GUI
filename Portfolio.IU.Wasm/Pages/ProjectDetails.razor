@@ -2,36 +2,39 @@
 @inject HttpClient http
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
+<body>
+    <content class="main-article">
+        <div class="project-header">
+            <h3> @projectName</h3>
+            @projectCompletionDate
+            <a href="project/projectdetails/edit/@Slug">edit</a>
+        </div>
 
-<div class="project-header">
-    <h3> @projectName</h3>
-    @projectCompletionDate
-</div>
+        
+        <div>
+            <MarkdownView Content="@projectRequirements" />
+            <MarkdownView Content="@projectDesign" />
+        </div>
 
-<a href="project/projectdetails/edit/@Slug">edit</a>
-<div>
-    <MarkdownView Content="@projectRequirements" />
-    <MarkdownView Content="@projectDesign" />
-</div>
+        <hr />
+        <div >
+            <div class="category">
+                <div>Language</div>
+                <ListOfLanguages SelectedProject="@SelectedProject" />
+            </div>
 
+            <div class="category">
+                <div>Platform</div>
+                <ListOfPlatforms SelectedProject="@SelectedProject" />
+            </div>
 
-<div >
-    <div class="category">
-        <div>Language</div>
-        <ListOfLanguages SelectedProject="@SelectedProject"/>
-    </div>
-
-    <div class="category">
-        <div>Platform</div>
-        <ListOfPlatforms SelectedProject="@SelectedProject" />
-    </div>
-
-    <div class="category">
-        <div>Technology</div>
-        <ListOfTechnologies SelectedProject="@SelectedProject" />
-    </div>
-</div>
-
+            <div class="category">
+                <div>Technology</div>
+                <ListOfTechnologies SelectedProject="@SelectedProject" />
+            </div>
+        </div>
+    </content>
+</body>
 
 @code { [Parameter]
     public int ProjectId { get; set; }

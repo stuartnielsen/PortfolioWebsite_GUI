@@ -182,8 +182,4 @@ app {
     }
 }
 
-.category {
-    list-style-type: none;
-    display: inline-block;
-    background-color: aqua;
-}
+

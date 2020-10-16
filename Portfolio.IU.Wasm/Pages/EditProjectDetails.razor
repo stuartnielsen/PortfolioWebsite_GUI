@@ -25,114 +25,115 @@
 </div>
 <button @onclick="updateProject">save</button>
 <div>
-    <div>Language</div>
-    <div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>
-    <ListOfLanguages SelectedProject="@SelectedProject" />
+    <div class="category">
+        <div>Language</div>
+        <div><input @bind-value="newLanguage" /><button @onclick="assignLanguage">Add</button></div>
+        <ListOfLanguages SelectedProject="@SelectedProject" />
+    </div>
+    <div class="category">
+        <div>Platform</div>
+        <div><input @bind-value="newPlatform" /><button @onclick="assignPlatform">Add</button></div>
+        <ListOfPlatforms SelectedProject="@SelectedProject" />
+    </div>
+    <div class="category">
+        <div>Technology</div>
+        <div><input @bind-value="newTechnology" /><button @onclick="assignTechnology">Add</button></div>
+        <ListOfTechnologies SelectedProject="@SelectedProject" />
+    </div>
 
-    
-    <div>Platform</div>
-    <div><input @bind-value="newPlatform" /><button @onclick="assignPlatform">Add</button></div>
-    <ListOfPlatforms SelectedProject="@SelectedProject" />
-       
-
-    <div>Technology</div>
-    <div><input @bind-value="newTechnology" /><button @onclick="assignTechnology">Add</button></div>
-    <ListOfTechnologies SelectedProject="@SelectedProject" />
-
-    
-</div>
-<MarkdownView Content="@projectRequirements" />
-
-
-@code { [Parameter]
-    public int ProjectId { get; set; }
-    [Parameter]
-    public string Slug { get; set; }
-    public int Id { get; set; }
-
-    string newLanguage;
-    string newPlatform;
-    string newTechnology;
-
-    private string projectName;
-    private string projectRequirements;
-    private string projectDesign;
-    private DateTime projectCompletionDate;
-
-    public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
-    public Project project { get; set; } = new Project();
+        </div>
+        <MarkdownView Content="@projectRequirements" />
 
 
-    protected override async Task OnInitializedAsync()
-    {
-        if (Slug == null)
-            return;
-        SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
+        @code { [Parameter]
+            public int ProjectId { get; set; }
+            [Parameter]
+            public string Slug { get; set; }
+            public int Id { get; set; }
 
-        projectName = SelectedProject.Title;
-        projectRequirements = SelectedProject.Requirements;
-        projectDesign = SelectedProject.Design;
-        projectCompletionDate = SelectedProject.CompletionDate;
-    }
+            string newLanguage;
+            string newPlatform;
+            string newTechnology;
 
-    private async Task updateProject()
-    {
-        var project = new ProjectViewModel
-        {
-            Id = SelectedProject.Id,
-            Title = projectName,
-            Requirements = projectRequirements,
-            Design = projectDesign,
-            CompletionDate = projectCompletionDate,
-        };
-        try
-        {
-            var response = await http.PostAsJsonAsync("/api/project/update", project);
+            private string projectName;
+            private string projectRequirements;
+            private string projectDesign;
+            private DateTime projectCompletionDate;
+
+            public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
+            public Project project { get; set; } = new Project();
+
+
+            protected override async Task OnInitializedAsync()
+            {
+                if (Slug == null)
+                    return;
+                SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
+
+                projectName = SelectedProject.Title;
+                projectRequirements = SelectedProject.Requirements;
+                projectDesign = SelectedProject.Design;
+                projectCompletionDate = SelectedProject.CompletionDate;
+            }
+
+            private async Task updateProject()
+            {
+                var project = new ProjectViewModel
+                {
+                    Id = SelectedProject.Id,
+                    Title = projectName,
+                    Requirements = projectRequirements,
+                    Design = projectDesign,
+                    CompletionDate = projectCompletionDate,
+                };
+                try
+                {
+                    var response = await http.PostAsJsonAsync("/api/project/update", project);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+
+
+            private async Task assignLanguage()
+            {
+                var assignBody = new AssignRequest
+                {
+                    CategoryType = Portfolio.Shared.Project.LanguageCategory,
+                    Name = newLanguage,
+                    ProjectId = SelectedProject.Id,
+                };
+                await http.PostAsJsonAsync("api/project/assign/", assignBody);
+                newLanguage = "";
+                await OnInitializedAsync();
+            }
+
+            private async Task assignPlatform()
+            {
+                var assignBody = new AssignRequest
+                {
+                    CategoryType = Portfolio.Shared.Project.PlatformCategory,
+                    Name = newPlatform,
+                    ProjectId = SelectedProject.Id,
+                };
+                await http.PostAsJsonAsync("api/project/assign/", assignBody);
+                newPlatform = "";
+                await OnInitializedAsync();
+            }
+
+            private async Task assignTechnology()
+            {
+                var assignBody = new AssignRequest
+                {
+                    CategoryType = Portfolio.Shared.Project.TechnologyCategory,
+                    Name = newTechnology,
+                    ProjectId = SelectedProject.Id,
+                };
+                await http.PostAsJsonAsync("api/project/assign/", assignBody);
+                newTechnology = "";
+                await OnInitializedAsync();
+            }
+
+
         }
-        catch (Exception e)
-        {
-        }
-    }
-
-
-    private async Task assignLanguage()
-    {
-        var assignBody = new AssignRequest
-        {
-            CategoryType = Portfolio.Shared.Project.LanguageCategory,
-            Name = newLanguage,
-            ProjectId = SelectedProject.Id,
-        };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
-        newLanguage = "";
-        await OnInitializedAsync();
-    }
-
-    private async Task assignPlatform()
-    {
-        var assignBody = new AssignRequest
-        {
-            CategoryType = Portfolio.Shared.Project.PlatformCategory,
-            Name = newPlatform,
-            ProjectId = SelectedProject.Id,
-        };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
-        newPlatform = "";
-        await OnInitializedAsync();
-    }
-
-    private async Task assignTechnology()
-    {
-        var assignBody = new AssignRequest
-        {
-            CategoryType = Portfolio.Shared.Project.TechnologyCategory,
-            Name = newTechnology,
-            ProjectId = SelectedProject.Id,
-        };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
-        newTechnology = "";
-        await OnInitializedAsync();
-    }
-
-
-}

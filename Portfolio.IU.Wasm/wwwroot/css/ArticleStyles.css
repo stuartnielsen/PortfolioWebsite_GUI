@@ -1,0 +1,19 @@
+﻿.category {
+    list-style-type: none;
+    display: inline-block;
+    padding-left: 3em;
+    padding-right:3em;
+    vertical-align:top
+}
+
+.main-article{
+    margin: 20px;
+    background-color: white;
+}
+
+.project-header *, .project-header {
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
