@@ -45,6 +45,9 @@ namespace Portfolio.API
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Library", Version = "v1" });
             });
+        //    services.AddHttpClient<IBasketService, BasketService>()
+        //.SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Set lifetime to five minutes
+        //.AddPolicyHandler(GetRetryPolicy());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

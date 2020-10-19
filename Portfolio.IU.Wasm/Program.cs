@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ganss.XSS;
+using Portfolio.BlazorWasm;
 
 namespace Portfolio.IU.Wasm
 {
