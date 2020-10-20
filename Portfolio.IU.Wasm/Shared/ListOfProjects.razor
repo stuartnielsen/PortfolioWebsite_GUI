@@ -1,4 +1,5 @@
 ﻿@inject HttpClient http
+@inject ProjectApiService httpAPI
 @using Portfolio.Shared.ViewModels
 
 <ul>
@@ -27,6 +28,6 @@
 
     private async Task RefreshProjectsAsync()
     {
-        projects = await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/");
+        projects = await httpAPI.GetProjectsAsync();
     }
 }

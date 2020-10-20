@@ -21,7 +21,7 @@ namespace Portfolio.IU.Wasm
 
             var baseAddress = builder.Configuration["HttpClientBaseAddress"];
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
-            //builder.Services.AddScoped<ProjectAppService>();
+            builder.Services.AddScoped<ProjectApiService>();
             builder.Services.AddScoped<IHtmlSanitizer, HtmlSanitizer>(x =>
             {
                 // Configure sanitizer rules as needed here.

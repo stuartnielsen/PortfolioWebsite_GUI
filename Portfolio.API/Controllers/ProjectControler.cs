@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Data;
 using Portfolio.Shared;
 using Portfolio.Shared.ViewModels;
-//using Polly;
-//using Polly.Retry;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Net.Http;
 
