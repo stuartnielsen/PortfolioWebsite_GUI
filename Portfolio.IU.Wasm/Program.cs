@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ganss.XSS;
+using Portfolio.BlazorWasm;
+using Polly.Extensions.Http;
+using Polly;
 
 namespace Portfolio.IU.Wasm
 {
@@ -20,7 +23,7 @@ namespace Portfolio.IU.Wasm
 
             var baseAddress = builder.Configuration["HttpClientBaseAddress"];
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
-            //builder.Services.AddScoped<ProjectAppService>();
+            builder.Services.AddScoped<ProjectApiService>();
             builder.Services.AddScoped<IHtmlSanitizer, HtmlSanitizer>(x =>
             {
                 // Configure sanitizer rules as needed here.
@@ -31,6 +34,18 @@ namespace Portfolio.IU.Wasm
             }); 
 
             await builder.Build().RunAsync();
+        }
+        static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            Random jitterer = new Random();
+            var retryWithJitterPolicy = HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .WaitAndRetryAsync(6,    // exponential back-off plus some jitter
+                    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                                  + TimeSpan.FromMilliseconds(jitterer.Next(0, 100))
+                );
+            return retryWithJitterPolicy;
         }
     }
 }

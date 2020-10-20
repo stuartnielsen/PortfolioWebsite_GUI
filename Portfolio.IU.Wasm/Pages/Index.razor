@@ -1,11 +1,10 @@
 ﻿@page "/"
 @*@inject Portfolio.BlazorWasm.ProjectApiService projectApi*@
-@inject HttpClient http
 @using Microsoft.Extensions.Configuration
 @using Portfolio.Shared.ViewModels
-@inject IConfiguration config
 @using Portfolio.Shared
-
+@inject HttpClient http
+@inject IConfiguration config
 
 
 
@@ -51,15 +50,15 @@
 
 <hr />
 <h3>List of Projects</h3>
-<ListOfProjects/>
+<ListOfProjects />
 @*<ul>
-    @foreach (var p in projects)
-    {
-<li>
-    <a href="./project/projectdetails/@p.Slug"> @p.Title</a>
-    <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
-</li>}
-</ul>*@
+        @foreach (var p in projects)
+        {
+    <li>
+        <a href="./project/projectdetails/@p.Slug"> @p.Title</a>
+        <button @onclick="(() => removeProject(p)) " class="btn btn-primary">Remove </button>
+    </li>}
+    </ul>*@
 
 
 
@@ -86,7 +85,7 @@
         };
         try
         {
-            var response = await http.PostAsJsonAsync("/api/project", project); 
+            var response = await http.PostAsJsonAsync("/api/project", project);
             await RefreshProjectsAsync();
         }
         catch (Exception e)
@@ -114,5 +113,5 @@
     private async Task RefreshProjectsAsync()
     {
         projects = await http.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("/api/project/");
-    } 
+    }
 }

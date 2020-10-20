@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Data;
 using Portfolio.Shared;
 using Portfolio.Shared.ViewModels;
+using Microsoft.AspNetCore.SignalR.Protocol;
+using System.Net.Http;
 
 namespace Portfolio.API.Controllers
 {
@@ -16,10 +18,12 @@ namespace Portfolio.API.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IRepository repository;
+        //readonly RetryPolicy<HttpResponseMessage> httpRetryPolicy;
 
         public ProjectController(IRepository repository)
         {
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            //httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode).Retry(3); //why does async not work here? RetryAsync(3)
         }
 
         [HttpGet()]
