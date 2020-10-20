@@ -7,12 +7,16 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Polly;
+using Polly.Retry;
 
 namespace Portfolio.BlazorWasm
 {
     public class ProjectApiService
     {
         private readonly HttpClient client;
+        readonly RetryPolicy<HttpResponseMessage> httpRetryPolicy;
+
 
         public ProjectApiService(HttpClient client)
         {
@@ -23,6 +27,7 @@ namespace Portfolio.BlazorWasm
         {
             var response = await client.GetAsync("api/project");
             return await client.GetFromJsonAsync<IEnumerable<ProjectViewModel>>("api/project");
+            //httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode).RetryAsync(3); //why does async not work here? RetryAsync(3)
         }
 
         public async Task SaveProjectAsync(Project project)
