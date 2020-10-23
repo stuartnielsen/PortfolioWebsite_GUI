@@ -85,18 +85,21 @@ namespace Portfolio.API.Controllers
         }
 
         [HttpDelete("[action]/{id}")]
+        [Authorize]
         public async Task DeleteProject(int id)
         {
             await repository.DeleteProjectAsync(id);
         }
 
         [HttpPost("Update")]
+        [Authorize]
         public async Task UpdateProjectDetails(ProjectViewModel project)
         {
             await repository.UpdateProjectDetailsAsync(project);
         }
 
         [HttpPost("[action]")]
+        [Authorize]
         public async Task Assign(AssignRequest assignRequest)
         {
             await repository.AssignCategoryAsync(assignRequest);
