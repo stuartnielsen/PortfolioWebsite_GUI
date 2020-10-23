@@ -31,7 +31,12 @@ namespace Portfolio.IU.Wasm
                 var sanitizer = new Ganss.XSS.HtmlSanitizer();
                 sanitizer.AllowedAttributes.Add("class");
                 return sanitizer;
-            }); 
+            });
+            builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("Auth0", options.ProviderOptions);
+                options.ProviderOptions.ResponseType = "code";
+            });
 
             await builder.Build().RunAsync();
         }
