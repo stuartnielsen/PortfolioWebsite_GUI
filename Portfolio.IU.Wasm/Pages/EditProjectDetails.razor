@@ -1,10 +1,13 @@
 ﻿@page "/project/projectdetails/edit/{Slug}"
 @attribute [Authorize]
 @inject HttpClient http
+@inject IAccessTokenProvider TokenProvider
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
 @using Markdig.SyntaxHighlighting
 @using Markdig
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http.Headers
 
 
 
@@ -67,6 +70,22 @@
     public ProjectViewModel SelectedProject { get; set; } = new ProjectViewModel();
     public Project project { get; set; } = new Project();
 
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, "quiz"))
+    //    {
+    //        var tokenResult = await TokenProvider.RequestAccessToken();
+
+    //        if (tokenResult.TryGetToken(out var token))
+    //        {
+    //            requestMessage.Headers.Authorization =
+    //              new AuthenticationHeaderValue("Bearer", token.Value);
+    //            var response = await Http.SendAsync(requestMessage);
+    //            quiz = await response.Content.ReadFromJsonAsync<List<QuizItem>>();
+    //        }
+    //    }
+    //}
 
     protected override async Task OnInitializedAsync()
     {
