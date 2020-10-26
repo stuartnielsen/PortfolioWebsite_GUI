@@ -1,6 +1,6 @@
 ﻿@page "/project/projectdetails/edit/{Slug}"
 @attribute [Authorize]
-@inject HttpClient http
+@inject ProjectApiService api
 @inject IAccessTokenProvider TokenProvider
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
@@ -52,9 +52,9 @@
 
 
 @code { [Parameter]
-    public int ProjectId { get; set; }
-    [Parameter]
-    public string Slug { get; set; }
+        public int ProjectId { get; set; }
+        [Parameter]
+        public string Slug { get; set; }
     public int Id { get; set; }
 
     string newLanguage;
@@ -91,7 +91,7 @@
     {
         if (Slug == null)
             return;
-        SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
+        SelectedProject = await api.GetProjectFromSlug(Slug);
 
         projectName = SelectedProject.Title;
         projectRequirements = SelectedProject.Requirements;
@@ -116,7 +116,7 @@
 
         try
         {
-            var response = await http.PostAsJsonAsync("/api/project/update", project);
+            await api.SaveProjectAsync(project);
         }
         catch (Exception e)
         {
@@ -134,7 +134,7 @@
             Name = newLanguage,
             ProjectId = SelectedProject.Id,
         };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        await api.AssignAsync(assignBody);
         newLanguage = "";
         await OnInitializedAsync();
     }
@@ -147,7 +147,7 @@
             Name = newPlatform,
             ProjectId = SelectedProject.Id,
         };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        await api.AssignAsync(assignBody);
         newPlatform = "";
         await OnInitializedAsync();
     }
@@ -160,7 +160,7 @@
             Name = newTechnology,
             ProjectId = SelectedProject.Id,
         };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
+        await api.AssignAsync(assignBody);
         newTechnology = "";
         await OnInitializedAsync();
     }

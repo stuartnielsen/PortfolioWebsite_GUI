@@ -1,6 +1,6 @@
 ﻿@page "/category/language"
 
-@inject HttpClient http
+@inject ProjectApiService api
 @using Portfolio.Shared.ViewModels
 <h3>Language</h3>
 
@@ -9,11 +9,11 @@
         @foreach (var l in languages)
         {
             <li>
-                 @l.Name
+                @l.Name
                 <ul>
                     @foreach (var pl in l.Projects)
                     {
-                    <li id="@pl.Title"><a href="./project/projectdetails/@pl.Slug">@pl.Title</a></li>
+                        <li id="@pl.Title"><a href="./project/projectdetails/@pl.Slug">@pl.Title</a></li>
                     }
                 </ul>
             </li>
@@ -33,7 +33,7 @@
 
     private async Task RefreshCategoriesAsync()
     {
-        languages = await http.GetFromJsonAsync<IEnumerable<LanguageViewModel>>("/api/category/language");
+        languages = await api.GetLanguages();
     }
 
 

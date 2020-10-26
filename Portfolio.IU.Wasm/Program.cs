@@ -21,9 +21,13 @@ namespace Portfolio.IU.Wasm
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
+            builder.Services.AddScoped<Auth0AuthorizationMessageHandler>();
+;
             var baseAddress = builder.Configuration["HttpClientBaseAddress"];
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
-            builder.Services.AddScoped<ProjectApiService>();
+            builder.Services.AddHttpClient<ProjectApiService>(sp =>  sp.BaseAddress = new Uri(baseAddress) )
+                .AddHttpMessageHandler<Auth0AuthorizationMessageHandler>()
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+                .AddPolicyHandler(GetRetryPolicy()); 
             builder.Services.AddScoped<IHtmlSanitizer, HtmlSanitizer>(x =>
             {
                 // Configure sanitizer rules as needed here.
@@ -36,6 +40,7 @@ namespace Portfolio.IU.Wasm
             {
                 builder.Configuration.Bind("Auth0", options.ProviderOptions);
                 options.ProviderOptions.ResponseType = "code";
+                options.ProviderOptions.DefaultScopes.Add("https://schemas.dev-f6kthe8k.com/roles");
             });
 
             await builder.Build().RunAsync();

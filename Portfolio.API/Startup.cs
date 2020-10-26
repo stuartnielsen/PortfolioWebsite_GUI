@@ -49,8 +49,8 @@ namespace Portfolio.API
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = "https://dev-f6kthe8k.us.auth0.com/";
-                options.Audience = "https://portfolio-stuart-nielsen.com";
+                options.Authority = $"{Configuration["Auth0: Authority"]}";
+                options.Audience = $"{Configuration["Auth0: ApiIdentifier"]}";
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = "Roles",
@@ -74,6 +74,7 @@ namespace Portfolio.API
             app.UseRouting();
             app.UseCors();
 
+            app.UseAuthentication();
             app.UseAuthorization();
             //app.UseStaticFiles();
 

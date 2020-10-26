@@ -1,6 +1,6 @@
 ﻿@page "/category/platform"
 
-@inject HttpClient http
+@inject ProjectApiService api
 @using Portfolio.Shared.ViewModels
 
 <h3>Platforms</h3>
@@ -9,7 +9,7 @@
         @foreach (var p in platforms)
         {
             <li>
-                 @p.Name
+                @p.Name
                 <ul>
                     @foreach (var pp in p.Projects)
                     {
@@ -32,7 +32,7 @@
 
     private async Task RefreshCategoriesAsync()
     {
-        platforms = await http.GetFromJsonAsync<IEnumerable<PlatformViewModel>>("/api/category/platform");
+        platforms = await api.GetPlatforms();
     }
 
 }

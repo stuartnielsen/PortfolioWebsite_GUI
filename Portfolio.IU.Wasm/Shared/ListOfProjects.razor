@@ -1,5 +1,5 @@
-﻿@inject HttpClient http
-@inject ProjectApiService httpAPI
+﻿
+@inject ProjectApiService api
 @using Portfolio.Shared.ViewModels
 
 <ul>
@@ -22,12 +22,12 @@
 
     private async Task removeProject(ProjectViewModel project)
     {
-        await http.DeleteAsync($"/api/project/deleteproject/{project.Id}");
+        await api.RemoveProjectAsync(project);
         await RefreshProjectsAsync();
     }
 
     private async Task RefreshProjectsAsync()
     {
-        projects = await httpAPI.GetProjectsAsync();
+        projects = await api.GetProjectsAsync();
     }
 }

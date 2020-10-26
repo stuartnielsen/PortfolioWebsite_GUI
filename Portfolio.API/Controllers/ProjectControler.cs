@@ -42,7 +42,7 @@ namespace Portfolio.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize]//(Roles = "Admin")
         public async Task Post(ProjectViewModel project)
         {
             await repository.SaveProjectAsync(project);

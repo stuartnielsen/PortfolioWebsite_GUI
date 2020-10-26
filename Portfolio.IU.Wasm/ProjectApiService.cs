@@ -30,25 +30,52 @@ namespace Portfolio.BlazorWasm
             //httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode).RetryAsync(3); //why does async not work here? RetryAsync(3)
         }
 
-        public async Task SaveProjectAsync(Project project)
+        public async Task SaveProjectAsync(ProjectViewModel project)
         {
-            await client.PostAsJsonAsync("api/project", project);
+            var response = await client.PostAsJsonAsync("api/project/update", project);
         }
 
         public async Task<ProjectViewModel> GetProjectByIDAsync(int id)
         {
             return await client.GetFromJsonAsync<ProjectViewModel>($"api/project/{id}");
         }
-
-        public async Task AssignAsync(string categoryType, int projectId, string newName)
+        public async Task RemoveProjectAsync(ProjectViewModel project)
         {
-            var assignBody = new AssignRequest
-            {
-                CategoryType = categoryType,
-                Name = newName,
-                ProjectId = projectId
-            };
-            await client.PostAsJsonAsync($"api/project/assign/", assignBody);
+            await client.DeleteAsync($"/api/project/deleteproject/{project.Id}");
         }
+        public async Task AddProjectAsync(ProjectViewModel project)
+        {
+            var response = await client.PostAsJsonAsync("/api/project", project);
+
+        }
+        public async Task AssignAsync(AssignRequest assignBody)
+        {
+            //var assignBody = new AssignRequest
+            //{
+            //    CategoryType = categoryType,
+            //    Name = newName,
+            //    ProjectId = projectId
+            //};
+            await client.PostAsJsonAsync($"api/{assignBody.CategoryType}/assign/", assignBody);
+        }
+
+        public async Task<ProjectViewModel> GetProjectFromSlug(string Slug)
+        {
+            return await client.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}");
+        }
+
+        public async Task<IEnumerable<LanguageViewModel>> GetLanguages()
+        {
+            return await client.GetFromJsonAsync<IEnumerable<LanguageViewModel>>("/api/category/GetLanguages");
+        }
+        public async Task<IEnumerable<PlatformViewModel>> GetPlatforms()
+        {
+            return await client.GetFromJsonAsync<IEnumerable<PlatformViewModel>>("/api/category/GetPlatforms");
+        }
+        public async Task<IEnumerable<TechnologyViewModel>> GetTechnologies()
+        {
+            return await client.GetFromJsonAsync<IEnumerable<TechnologyViewModel>>("/api/category/GetTechnologies");
+        }
+
     }
 }

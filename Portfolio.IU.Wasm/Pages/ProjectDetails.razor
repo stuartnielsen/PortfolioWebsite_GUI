@@ -1,5 +1,5 @@
 ﻿@page "/project/projectdetails/{Slug}"
-@inject HttpClient http
+@inject ProjectApiService api
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
 @using Markdig.SyntaxHighlighting
@@ -62,7 +62,7 @@
     {
         if (Slug == null)
             return;
-        SelectedProject = (await http.GetFromJsonAsync<ProjectViewModel>($"/api/project/projectdetails/{Slug}"));
+        SelectedProject = await api.GetProjectFromSlug(Slug);
 
         projectName = SelectedProject.Title;
         projectRequirements = SelectedProject.Requirements;
@@ -77,64 +77,64 @@
 
     }
 
-    private async Task updateProject()
-    {
-        var project = new ProjectViewModel
-        {
-            Id = SelectedProject.Id,
-            Title = projectName,
-            Requirements = projectRequirements,
-            Design = projectDesign,
-            CompletionDate = projectCompletionDate,
-        };
-        try
-        {
-            var response = await http.PostAsJsonAsync("/api/project/update", project);
-        }
-        catch (Exception e)
-        {
-        }
-    }
+    //private async Task updateProject()
+    //{
+    //    var project = new ProjectViewModel
+    //    {
+    //        Id = SelectedProject.Id,
+    //        Title = projectName,
+    //        Requirements = projectRequirements,
+    //        Design = projectDesign,
+    //        CompletionDate = projectCompletionDate,
+    //    };
+    //    try
+    //    {
+    //        var response = await http.PostAsJsonAsync("/api/project/update", project);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //    }
+    //}
 
 
-    private async Task assignLanguage()
-    {
-        var assignBody = new AssignRequest
-        {
-            CategoryType = Portfolio.Shared.Project.LanguageCategory,
-            Name = newLanguage,
-            ProjectId = SelectedProject.Id,
-        };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
-        newLanguage = "";
-        await OnInitializedAsync();
-    }
+    //private async Task assignLanguage()
+    //{
+    //    var assignBody = new AssignRequest
+    //    {
+    //        CategoryType = Portfolio.Shared.Project.LanguageCategory,
+    //        Name = newLanguage,
+    //        ProjectId = SelectedProject.Id,
+    //    };
+    //    await http.PostAsJsonAsync("api/project/assign/", assignBody);
+    //    newLanguage = "";
+    //    await OnInitializedAsync();
+    //}
 
-    private async Task assignPlatform()
-    {
-        var assignBody = new AssignRequest
-        {
-            CategoryType = Portfolio.Shared.Project.PlatformCategory,
-            Name = newPlatform,
-            ProjectId = SelectedProject.Id,
-        };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
-        newPlatform = "";
-        await OnInitializedAsync();
-    }
+    //private async Task assignPlatform()
+    //{
+    //    var assignBody = new AssignRequest
+    //    {
+    //        CategoryType = Portfolio.Shared.Project.PlatformCategory,
+    //        Name = newPlatform,
+    //        ProjectId = SelectedProject.Id,
+    //    };
+    //    await http.PostAsJsonAsync("api/project/assign/", assignBody);
+    //    newPlatform = "";
+    //    await OnInitializedAsync();
+    //}
 
-    private async Task assignTechnology()
-    {
-        var assignBody = new AssignRequest
-        {
-            CategoryType = Portfolio.Shared.Project.TechnologyCategory,
-            Name = newTechnology,
-            ProjectId = SelectedProject.Id,
-        };
-        await http.PostAsJsonAsync("api/project/assign/", assignBody);
-        newTechnology = "";
-        await OnInitializedAsync();
-    }
+    //private async Task assignTechnology()
+    //{
+    //    var assignBody = new AssignRequest
+    //    {
+    //        CategoryType = Portfolio.Shared.Project.TechnologyCategory,
+    //        Name = newTechnology,
+    //        ProjectId = SelectedProject.Id,
+    //    };
+    //    await http.PostAsJsonAsync("api/project/assign/", assignBody);
+    //    newTechnology = "";
+    //    await OnInitializedAsync();
+    //}
 
 
 }

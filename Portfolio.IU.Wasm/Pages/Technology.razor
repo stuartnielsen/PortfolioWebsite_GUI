@@ -1,24 +1,24 @@
 ﻿@page "/category/technology"
 
-@inject HttpClient http
+@inject ProjectApiService api
 @using Portfolio.Shared.ViewModels
 <h3>Technology</h3>
 
 <div>
-<ul>
-    @foreach (var t in technologies)
-    {
-        <li>
-             @t.Name
-            <ul>
-                @foreach (var pt in t.Projects)
-                {
-                    <li id="@pt.Title"><a href="./project/projectdetails/@pt.Slug">@pt.Title</a></li>
-                }
-            </ul>
-        </li>
-    }
-</ul>
+    <ul>
+        @foreach (var t in technologies)
+        {
+            <li>
+                @t.Name
+                <ul>
+                    @foreach (var pt in t.Projects)
+                    {
+                        <li id="@pt.Title"><a href="./project/projectdetails/@pt.Slug">@pt.Title</a></li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
 </div>
 
 @code {
@@ -32,7 +32,7 @@
 
     private async Task RefreshCategoriesAsync()
     {
-        technologies = await http.GetFromJsonAsync<IEnumerable<TechnologyViewModel>>("/api/category/technology");
+        technologies = await api.GetTechnologies();
     }
 
 }

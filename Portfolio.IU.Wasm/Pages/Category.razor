@@ -1,6 +1,6 @@
 ﻿@page "/category"
 
-@inject HttpClient http
+@inject ProjectApiService api
 @using Portfolio.Shared.ViewModels
 
 <h3>Categories</h3>
@@ -54,12 +54,12 @@
 
     private async Task RefreshCategoriesAsync()
     {
-        languages = await http.GetFromJsonAsync<IEnumerable<LanguageViewModel>>("/api/category/GetLanguages");
-        platforms = await http.GetFromJsonAsync<IEnumerable<PlatformViewModel>>("/api/category/GetPlatforms");
-        technologies = await http.GetFromJsonAsync<IEnumerable<TechnologyViewModel>>("/api/category/GetTechnologies");
+        languages = await api.GetLanguages();
+        platforms = await api.GetPlatforms();
+        technologies = await api.GetTechnologies();
+
+
+
+
     }
-
-
-
-
 }
