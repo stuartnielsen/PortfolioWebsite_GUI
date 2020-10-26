@@ -13,7 +13,7 @@ namespace Portfolio.IU.Wasm
         public Auth0AuthorizationMessageHandler(IAccessTokenProvider provider, NavigationManager navigationManager, IConfiguration config) : base(provider, navigationManager)
         {
             this.ConfigureHandler(
-                authorizedUrls: new[] { config["HttpClientBaseAddress"], "http://localhost:5000" }//, "https://portfolio-snow-jallen.herokuapp.com/", "https://portfolio2.snow.edu" }
+                authorizedUrls: new[] { config["HttpClientBaseAddress"], "http://localhost:5000" , "https://myportfolio-gui.herokuapp.com/", "https://stuartnielsen.github.io/PortfolioWebsite_GUI/" }
             );
         }
     }
