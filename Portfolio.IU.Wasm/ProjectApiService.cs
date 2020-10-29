@@ -56,7 +56,7 @@ namespace Portfolio.BlazorWasm
             //    Name = newName,
             //    ProjectId = projectId
             //};
-            await client.PostAsJsonAsync($"api/{assignBody.CategoryType}/assign/", assignBody);
+            await client.PostAsJsonAsync($"api/project/assign/", assignBody);
         }
 
         public async Task<ProjectViewModel> GetProjectFromSlug(string Slug)
