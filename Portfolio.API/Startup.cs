@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Portfolio.API.Data;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Portfolio.API
 {
@@ -49,8 +50,8 @@ namespace Portfolio.API
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = $"{Configuration["Auth0: Authority"]}";
-                options.Audience = $"{Configuration["Auth0: ApiIdentifier"]}";
+                options.Authority = Configuration["Auth0:Authority"];
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = "Roles",
@@ -60,6 +61,16 @@ namespace Portfolio.API
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Library", Version = "v1" });
+                //options.OperationFilter<SwaggerAuthorization>();
+                options.AddSecurityDefinition("Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        In = ParameterLocation.Header,
+                        Description = "Token",
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "Bearer"
+                    });
             });
         }
 

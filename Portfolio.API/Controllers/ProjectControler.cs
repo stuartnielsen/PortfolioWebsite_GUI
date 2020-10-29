@@ -19,12 +19,10 @@ namespace Portfolio.API.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IRepository repository;
-        //readonly RetryPolicy<HttpResponseMessage> httpRetryPolicy;
 
         public ProjectController(IRepository repository)
         {
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            //httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode).Retry(3); //why does async not work here? RetryAsync(3)
         }
 
         [HttpGet()]
@@ -42,7 +40,7 @@ namespace Portfolio.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]//(Roles = "Admin")
+        [Authorize]
         public async Task Post(ProjectViewModel project)
         {
             await repository.SaveProjectAsync(project);
@@ -85,21 +83,21 @@ namespace Portfolio.API.Controllers
         }
 
         [HttpDelete("[action]/{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task DeleteProject(int id)
         {
             await repository.DeleteProjectAsync(id);
         }
 
         [HttpPost("Update")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task UpdateProjectDetails(ProjectViewModel project)
         {
             await repository.UpdateProjectDetailsAsync(project);
         }
 
         [HttpPost("[action]")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task Assign(AssignRequest assignRequest)
         {
             await repository.AssignCategoryAsync(assignRequest);

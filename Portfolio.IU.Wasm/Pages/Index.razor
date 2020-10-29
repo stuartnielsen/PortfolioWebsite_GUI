@@ -3,10 +3,11 @@
 @using Microsoft.Extensions.Configuration
 @using Portfolio.Shared.ViewModels
 @using Portfolio.Shared
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http.Headers
 @inject ProjectApiService api
 @inject IConfiguration config
-
-
+@inject IAccessTokenProvider TokenProvider
 
 
 @*<head>
@@ -74,6 +75,31 @@
     private IEnumerable<ProjectViewModel> projects = new List<ProjectViewModel>();
     private IEnumerable<Project> project = new List<Project>();
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var authState = await authStateProvider.GetAuthenticationStateAsync();
+        //var roles = from c in authState.User.Claims
+        //            where c.Type == "https://schemas.dev-f6kthe8k.com/roles"
+        //            select c.Value;
+        //isAdmin = roles.Any(r => r.Contains("Admin"));
+
+        //using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, "post"))
+        //{
+        //    var tokenResult = await TokenProvider.RequestAccessToken();
+
+        //    if (tokenResult.TryGetToken(out var token))
+        //    {
+        //        requestMessage.Headers.Authorization =
+        //          new AuthenticationHeaderValue("Bearer", token.Value);
+        //        var response = await api.SendAsync(requestMessage);
+        //        quiz = await response.Content.ReadFromJsonAsync<List<QuizItem>>();
+        //    }
+
+        //}
+        await RefreshProjectsAsync();
+    }
+
     private async Task addProject()
     {
         var project = new ProjectViewModel
@@ -100,12 +126,9 @@
         await RefreshProjectsAsync();
     }
 
-    
 
-    protected override async Task OnInitializedAsync()
-    {
-        await RefreshProjectsAsync();
-    }
+
+
 
     private async Task RefreshProjectsAsync()
     {
