@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Portfolio.API.Data;
+using Portfolio.API.Configuration;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Portfolio.API
@@ -61,7 +62,7 @@ namespace Portfolio.API
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Library", Version = "v1" });
-                //options.OperationFilter<SwaggerAuthorization>();
+                options.OperationFilter<SwaggerAuthorization>();
                 options.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme
                     {
