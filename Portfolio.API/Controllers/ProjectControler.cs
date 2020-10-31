@@ -11,6 +11,7 @@ using Portfolio.Shared.ViewModels;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Portfolio.API.Configuration;
 
 namespace Portfolio.API.Controllers
 {
@@ -41,6 +42,7 @@ namespace Portfolio.API.Controllers
 
         [HttpPost]
         [Authorize]
+        [SwaggerAuthorization]
         public async Task Post(ProjectViewModel project)
         {
             await repository.SaveProjectAsync(project);
